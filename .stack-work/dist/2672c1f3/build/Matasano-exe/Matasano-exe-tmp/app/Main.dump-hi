@@ -1,0 +1,72 @@
+
+==================== FINAL INTERFACE ====================
+2016-06-02 10:11:09.5972588 UTC
+
+interface main@main:Main 7103
+  interface hash: dfb712752a7b243712f148a3716b6026
+  ABI hash: 787c2ed0a7f18770b3714fc26b459329
+  export-list hash: d6647f4d40f36c8a5fb4c89ffb9452e4
+  orphan hash: 693e9af84d3dfcc71e640e005bdc5e2e
+  flag hash: a56e6bee9b1876d62ec4c4b9d8517754
+  sig of: Nothing
+  used TH splices: False
+  where
+exports:
+  Main.main
+module dependencies:
+package dependencies: Matasano-0.1.0.0@Matas_5owQ4W1svNRDGggvsHH52l
+                      array-0.5.1.0@array_67iodizgJQIIxYVTp4emlA base-4.8.2.0
+                      bitwise-0.1.1.1@bitwi_1UInExT1dkGBFQ7JfumA61
+                      bytestring-0.10.6.0@bytes_6VWy06pWzJq9evDvK2d4w6
+                      bytestring-read-0.3.1@bytes_E70YK5o9wd6F4IFwPKQNVW
+                      containers-0.5.6.2@conta_2C3ZI8RgPO2LBMidXKTvIU
+                      deepseq-1.4.1.1@deeps_6vMKxt5sPFR0XsbRWvvq59 ghc-prim-0.4.0.0
+                      integer-gmp-1.0.0.0 split-0.2.3.1@split_2IxbOPGrTSq7kFrJA7odmE
+                      types-compat-0.1.1@types_4nbjkueFGIp963bsRkjZLR
+                      word8-0.1.2@word8_6yKBsGbmsbLB2UCORShr75
+orphans: base-4.8.2.0:GHC.Base base-4.8.2.0:GHC.Float
+family instance modules: base-4.8.2.0:Control.Applicative
+                         base-4.8.2.0:Data.Either base-4.8.2.0:Data.Functor.Identity
+                         base-4.8.2.0:Data.Monoid base-4.8.2.0:Data.Type.Equality
+                         base-4.8.2.0:Data.Void base-4.8.2.0:GHC.Exts
+                         base-4.8.2.0:GHC.Generics base-4.8.2.0:GHC.TypeLits
+                         bytestring-read-0.3.1@bytes_E70YK5o9wd6F4IFwPKQNVW:Data.ByteString.Read.Class
+                         containers-0.5.6.2@conta_2C3ZI8RgPO2LBMidXKTvIU:Data.Map.Base
+                         containers-0.5.6.2@conta_2C3ZI8RgPO2LBMidXKTvIU:Data.Set.Base
+import  -/  Matasano-0.1.0.0@Matas_5owQ4W1svNRDGggvsHH52l:Set1 25d8ee6530df6bd09d33a80caecce1a5
+import  -/  base-4.8.2.0:Prelude 694dcaf039efe62df1c44834e2dbd2fb
+import  -/  base-4.8.2.0:System.IO 638c10c4fd4901a0aca5b77c9f14123d
+import  -/  ghc-prim-0.4.0.0:GHC.Types 6b27fb3fdbd0e3f0925a4496c66513bb
+2a1279cf5139706b0d47d7cf37f9b09e
+  main :: GHC.Types.IO ()
+  {- Arity: 1, Strictness: <L,U>,
+     Unfolding: InlineRule (0, True, True)
+                Main.main1 `cast` (Sym (GHC.Types.NTCo:IO[0] <()>_R)) -}
+d4cd6d76895dbecdd1f04940abc3eb36
+  main1 ::
+    GHC.Prim.State# GHC.Prim.RealWorld
+    -> (# GHC.Prim.State# GHC.Prim.RealWorld, () #)
+  {- Arity: 1, Strictness: <L,U>,
+     Unfolding: InlineRule (1, True, False)
+                (\ eta :: GHC.Prim.State# GHC.Prim.RealWorld[OneShot] ->
+                 GHC.IO.Handle.Text.hPutStr2
+                   GHC.IO.Handle.FD.stdout
+                   (Data.ByteString.Internal.$fShowByteString_$cshow Set1.chall2)
+                   GHC.Types.True
+                   eta) -}
+94373de1be317aed0ea296566c17ad33
+  main2 ::
+    GHC.Prim.State# GHC.Prim.RealWorld
+    -> (# GHC.Prim.State# GHC.Prim.RealWorld, () #)
+  {- Arity: 1,
+     Unfolding: (GHC.TopHandler.runMainIO1
+                   @ ()
+                   Main.main1 `cast` (Sym (GHC.Types.NTCo:IO[0] <()>_R))) -}
+vectorised variables:
+vectorised tycons:
+vectorised reused tycons:
+parallel variables:
+parallel tycons:
+trusted: none
+require own pkg trusted: False
+

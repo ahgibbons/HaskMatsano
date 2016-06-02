@@ -1,0 +1,228 @@
+
+==================== FINAL INTERFACE ====================
+2016-06-01 23:43:32.921533 UTC
+
+interface Matas_EL5oZZhIsKy82lR7fUB5AU:Set1 7103
+  interface hash: 46ad01cb54707132753f25d3000e8e62
+  ABI hash: 5c59d97b23d933c00268352ee3fbb554
+  export-list hash: 676588a0b4408690954c093a5bff6aae
+  orphan hash: 693e9af84d3dfcc71e640e005bdc5e2e
+  flag hash: 161d16d3422b284d74d35a691dea01b8
+  sig of: Nothing
+  used TH splices: False
+  where
+exports:
+  Set1.ch2_t1
+  Set1.ch2_t2
+  Set1.chall1
+  Set1.chall1_res
+  Set1.chall2
+  Set1.chall2_res
+  Set1.inText
+module dependencies: CryptTools
+package dependencies: array-0.5.1.0@array_67iodizgJQIIxYVTp4emlA
+                      base-4.8.2.0 bitwise-0.1.1.1@bitwi_1UInExT1dkGBFQ7JfumA61
+                      bytestring-0.10.6.0@bytes_6VWy06pWzJq9evDvK2d4w6
+                      bytestring-read-0.3.1@bytes_E70YK5o9wd6F4IFwPKQNVW
+                      containers-0.5.6.2@conta_2C3ZI8RgPO2LBMidXKTvIU
+                      deepseq-1.4.1.1@deeps_6vMKxt5sPFR0XsbRWvvq59 ghc-prim-0.4.0.0
+                      integer-gmp-1.0.0.0 split-0.2.3.1@split_2IxbOPGrTSq7kFrJA7odmE
+                      types-compat-0.1.1@types_4nbjkueFGIp963bsRkjZLR
+orphans: base-4.8.2.0:GHC.Base base-4.8.2.0:GHC.Float
+family instance modules: base-4.8.2.0:Control.Applicative
+                         base-4.8.2.0:Data.Either base-4.8.2.0:Data.Functor.Identity
+                         base-4.8.2.0:Data.Monoid base-4.8.2.0:Data.Type.Equality
+                         base-4.8.2.0:Data.Void base-4.8.2.0:GHC.Exts
+                         base-4.8.2.0:GHC.Generics base-4.8.2.0:GHC.TypeLits
+                         bytestring-read-0.3.1@bytes_E70YK5o9wd6F4IFwPKQNVW:Data.ByteString.Read.Class
+                         containers-0.5.6.2@conta_2C3ZI8RgPO2LBMidXKTvIU:Data.Map.Base
+                         containers-0.5.6.2@conta_2C3ZI8RgPO2LBMidXKTvIU:Data.Set.Base
+import  -/  CryptTools bca904050aa5879b6cce0c2c31cc2e54
+  exports: 1c41cfbc89af9a6be5f984b69614a455
+  B64String 6e441a6f4982f510e21affc39030426c
+  HexString 073d0baaf4a869ea98fb5fdbde5f2ded
+  readB16 f27af5882304a4e9c6b5340985165948
+  showB16 b2db6620c086746be30ea90c5497df3d
+  showB64String 6e9147fd40b49b837ef08be230909281
+import  -/  base-4.8.2.0:Data.Bits 87551525e7ef366d0fc4cad44e8b1bfc
+import  -/  base-4.8.2.0:Prelude 694dcaf039efe62df1c44834e2dbd2fb
+import  -/  bytestring-0.10.6.0@bytes_6VWy06pWzJq9evDvK2d4w6:Data.ByteString effd24476ff7cd481cf047a616a25531
+d84b057117045ab7f3823539545528bd
+  ch2_t1 :: CryptTools.HexString
+  {- Unfolding: (case GHC.Prim.newMutVar#
+                        @ GHC.ForeignPtr.Finalizers
+                        @ GHC.Prim.RealWorld
+                        GHC.ForeignPtr.NoFinalizers
+                        GHC.Prim.realWorld# of ds1 { (#,#) ipv ipv1 ->
+                 let {
+                   addr# :: GHC.Prim.Addr# = "1c0111001f010100061a024b53535009181c"#
+                 } in
+                 case {__pkg_ccall bytestring-0.10.6.0@bytes_6VWy06pWzJq9evDvK2d4w6 strlen GHC.Prim.Addr#
+                                                                                           -> GHC.Prim.State#
+                                                                                                GHC.Prim.RealWorld
+                                                                                           -> (# GHC.Prim.State#
+                                                                                                   GHC.Prim.RealWorld,
+                                                                                                 GHC.Prim.Word# #)}
+                        addr#
+                        ipv of wild { (#,#) ds3 ds4 ->
+                 Data.ByteString.Internal.PS
+                   addr#
+                   (GHC.ForeignPtr.PlainForeignPtr ipv1)
+                   0
+                   (GHC.Prim.word2Int# ds4) } }) -}
+7ab3b70e5f780df5979759eb05771df3
+  ch2_t2 :: CryptTools.HexString
+  {- Unfolding: (case GHC.Prim.newMutVar#
+                        @ GHC.ForeignPtr.Finalizers
+                        @ GHC.Prim.RealWorld
+                        GHC.ForeignPtr.NoFinalizers
+                        GHC.Prim.realWorld# of ds1 { (#,#) ipv ipv1 ->
+                 let {
+                   addr# :: GHC.Prim.Addr# = "686974207468652062756c6c277320657965"#
+                 } in
+                 case {__pkg_ccall bytestring-0.10.6.0@bytes_6VWy06pWzJq9evDvK2d4w6 strlen GHC.Prim.Addr#
+                                                                                           -> GHC.Prim.State#
+                                                                                                GHC.Prim.RealWorld
+                                                                                           -> (# GHC.Prim.State#
+                                                                                                   GHC.Prim.RealWorld,
+                                                                                                 GHC.Prim.Word# #)}
+                        addr#
+                        ipv of wild { (#,#) ds3 ds4 ->
+                 Data.ByteString.Internal.PS
+                   addr#
+                   (GHC.ForeignPtr.PlainForeignPtr ipv1)
+                   0
+                   (GHC.Prim.word2Int# ds4) } }) -}
+4ccc5fb81b8a9a75aee3eab080e898af
+  chall1 :: CryptTools.B64String
+  {- Unfolding: (CryptTools.showB64String Set1.chall4) -}
+098fc8f4d8a234b5d1397a7afd6c812c
+  chall1_res :: CryptTools.B64String
+  {- Unfolding: (case GHC.Prim.newMutVar#
+                        @ GHC.ForeignPtr.Finalizers
+                        @ GHC.Prim.RealWorld
+                        GHC.ForeignPtr.NoFinalizers
+                        GHC.Prim.realWorld# of ds1 { (#,#) ipv ipv1 ->
+                 let {
+                   addr# :: GHC.Prim.Addr#
+                   = "SSdtIGtpbGxpbmcgeW91ciBicmFpbiBsaWtlIGEgcG9pc29ub3VzIG11c2hyb29t"#
+                 } in
+                 case {__pkg_ccall bytestring-0.10.6.0@bytes_6VWy06pWzJq9evDvK2d4w6 strlen GHC.Prim.Addr#
+                                                                                           -> GHC.Prim.State#
+                                                                                                GHC.Prim.RealWorld
+                                                                                           -> (# GHC.Prim.State#
+                                                                                                   GHC.Prim.RealWorld,
+                                                                                                 GHC.Prim.Word# #)}
+                        addr#
+                        ipv of wild { (#,#) ds3 ds4 ->
+                 Data.ByteString.Internal.PS
+                   addr#
+                   (GHC.ForeignPtr.PlainForeignPtr ipv1)
+                   0
+                   (GHC.Prim.word2Int# ds4) } }) -}
+2bba0f0531c75cae9fefaac1b6eb6164
+  chall2 :: CryptTools.HexString
+  {- Unfolding: (CryptTools.showB16 Set1.chall5) -}
+2d911d56f12c3ed0296cb9af32248838
+  chall2_res :: CryptTools.HexString
+  {- Unfolding: (case GHC.Prim.newMutVar#
+                        @ GHC.ForeignPtr.Finalizers
+                        @ GHC.Prim.RealWorld
+                        GHC.ForeignPtr.NoFinalizers
+                        GHC.Prim.realWorld# of ds1 { (#,#) ipv ipv1 ->
+                 let {
+                   addr# :: GHC.Prim.Addr# = "746865206b696420646f6e277420706c6179"#
+                 } in
+                 case {__pkg_ccall bytestring-0.10.6.0@bytes_6VWy06pWzJq9evDvK2d4w6 strlen GHC.Prim.Addr#
+                                                                                           -> GHC.Prim.State#
+                                                                                                GHC.Prim.RealWorld
+                                                                                           -> (# GHC.Prim.State#
+                                                                                                   GHC.Prim.RealWorld,
+                                                                                                 GHC.Prim.Word# #)}
+                        addr#
+                        ipv of wild { (#,#) ds3 ds4 ->
+                 Data.ByteString.Internal.PS
+                   addr#
+                   (GHC.ForeignPtr.PlainForeignPtr ipv1)
+                   0
+                   (GHC.Prim.word2Int# ds4) } }) -}
+3047a11fbbd38b017d1fead2c182ae8f
+  chall4 :: [GHC.Word.Word8]
+  {- Unfolding: (case Set1.inText of wild { Data.ByteString.Internal.PS dt dt1 dt2 dt3 ->
+                 letrec {
+                   go :: GHC.Ptr.Ptr GHC.Word.Word8
+                         -> GHC.Ptr.Ptr GHC.Word.Word8 -> [GHC.Word.Word8]
+                     {- Arity: 2 -}
+                   = \ p1 :: GHC.Ptr.Ptr GHC.Word.Word8
+                       q :: GHC.Ptr.Ptr GHC.Word.Word8 ->
+                     case p1 of p2 { GHC.Ptr.Ptr ipv ->
+                     case q of q1 { GHC.Ptr.Ptr ipv1 ->
+                     case GHC.Prim.tagToEnum#
+                            @ GHC.Types.Bool
+                            (GHC.Prim.eqAddr# ipv ipv1) of wild1 {
+                       GHC.Types.False
+                       -> case GHC.Prim.readWord8OffAddr#
+                                 @ GHC.Prim.RealWorld
+                                 ipv
+                                 0
+                                 GHC.Prim.realWorld# of ds2 { (#,#) ipv2 ipv3 ->
+                          case GHC.Prim.touch#
+                                 @ GHC.ForeignPtr.ForeignPtrContents
+                                 dt1
+                                 ipv2 of s' { DEFAULT ->
+                          GHC.Types.:
+                            @ GHC.Word.Word8
+                            (GHC.Word.W8# ipv3)
+                            (go
+                               (GHC.Ptr.Ptr @ GHC.Word.Word8 (GHC.Prim.plusAddr# ipv 1))
+                               q1) } }
+                       GHC.Types.True -> GHC.Types.[] @ GHC.Word.Word8 } } }
+                 } in
+                 go
+                   (GHC.Ptr.Ptr @ GHC.Word.Word8 (GHC.Prim.plusAddr# dt dt2))
+                   (GHC.Ptr.Ptr
+                      @ GHC.Word.Word8
+                      (GHC.Prim.plusAddr# dt (GHC.Prim.+# dt2 dt3))) }) -}
+810850d1af1073db27f7dca9e009c546
+  chall5 :: GHC.Integer.Type.Integer
+  {- Unfolding: (GHC.Integer.Type.xorInteger
+                   Set1.chall7
+                   Set1.chall6) -}
+7d5899d6115e97cc629d574fb0dabbba
+  chall6 :: GHC.Integer.Type.Integer
+  {- Unfolding: (CryptTools.readB16 Set1.ch2_t2) -}
+d2c01b703f06779899cd6a45a707f9af
+  chall7 :: GHC.Integer.Type.Integer
+  {- Unfolding: (CryptTools.readB16 Set1.ch2_t1) -}
+86accfa9a3eda15b568879ff6d4a7195
+  inText :: CryptTools.HexString
+  {- Unfolding: (case GHC.Prim.newMutVar#
+                        @ GHC.ForeignPtr.Finalizers
+                        @ GHC.Prim.RealWorld
+                        GHC.ForeignPtr.NoFinalizers
+                        GHC.Prim.realWorld# of ds1 { (#,#) ipv ipv1 ->
+                 let {
+                   addr# :: GHC.Prim.Addr#
+                   = "49276d206b696c6c696e6720796f757220627261696e206c696b65206120706f69736f6e6f7573206d757368726f6f6d"#
+                 } in
+                 case {__pkg_ccall bytestring-0.10.6.0@bytes_6VWy06pWzJq9evDvK2d4w6 strlen GHC.Prim.Addr#
+                                                                                           -> GHC.Prim.State#
+                                                                                                GHC.Prim.RealWorld
+                                                                                           -> (# GHC.Prim.State#
+                                                                                                   GHC.Prim.RealWorld,
+                                                                                                 GHC.Prim.Word# #)}
+                        addr#
+                        ipv of wild { (#,#) ds3 ds4 ->
+                 Data.ByteString.Internal.PS
+                   addr#
+                   (GHC.ForeignPtr.PlainForeignPtr ipv1)
+                   0
+                   (GHC.Prim.word2Int# ds4) } }) -}
+vectorised variables:
+vectorised tycons:
+vectorised reused tycons:
+parallel variables:
+parallel tycons:
+trusted: none
+require own pkg trusted: False
+
