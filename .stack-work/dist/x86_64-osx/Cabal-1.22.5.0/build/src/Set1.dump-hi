@@ -1,11 +1,11 @@
 
 ==================== FINAL INTERFACE ====================
-2016-06-01 23:43:32.921533 UTC
+2016-06-02 23:17:04.186704 UTC
 
-interface Matas_EL5oZZhIsKy82lR7fUB5AU:Set1 7103
-  interface hash: 46ad01cb54707132753f25d3000e8e62
-  ABI hash: 5c59d97b23d933c00268352ee3fbb554
-  export-list hash: 676588a0b4408690954c093a5bff6aae
+interface Matas_5owQ4W1svNRDGggvsHH52l:Set1 7103
+  interface hash: 6b796a30381b4d2f761062320c7e4ba7
+  ABI hash: eb9567dec5bddafed337f7e705958bd3
+  export-list hash: 246687e4f319cf4b40a62828683c094a
   orphan hash: 693e9af84d3dfcc71e640e005bdc5e2e
   flag hash: 161d16d3422b284d74d35a691dea01b8
   sig of: Nothing
@@ -14,10 +14,12 @@ interface Matas_EL5oZZhIsKy82lR7fUB5AU:Set1 7103
 exports:
   Set1.ch2_t1
   Set1.ch2_t2
+  Set1.ch3_instring
   Set1.chall1
   Set1.chall1_res
   Set1.chall2
   Set1.chall2_res
+  Set1.chall3
   Set1.inText
 module dependencies: CryptTools
 package dependencies: array-0.5.1.0@array_67iodizgJQIIxYVTp4emlA
@@ -28,6 +30,7 @@ package dependencies: array-0.5.1.0@array_67iodizgJQIIxYVTp4emlA
                       deepseq-1.4.1.1@deeps_6vMKxt5sPFR0XsbRWvvq59 ghc-prim-0.4.0.0
                       integer-gmp-1.0.0.0 split-0.2.3.1@split_2IxbOPGrTSq7kFrJA7odmE
                       types-compat-0.1.1@types_4nbjkueFGIp963bsRkjZLR
+                      word8-0.1.2@word8_6yKBsGbmsbLB2UCORShr75
 orphans: base-4.8.2.0:GHC.Base base-4.8.2.0:GHC.Float
 family instance modules: base-4.8.2.0:Control.Applicative
                          base-4.8.2.0:Data.Either base-4.8.2.0:Data.Functor.Identity
@@ -37,17 +40,22 @@ family instance modules: base-4.8.2.0:Control.Applicative
                          bytestring-read-0.3.1@bytes_E70YK5o9wd6F4IFwPKQNVW:Data.ByteString.Read.Class
                          containers-0.5.6.2@conta_2C3ZI8RgPO2LBMidXKTvIU:Data.Map.Base
                          containers-0.5.6.2@conta_2C3ZI8RgPO2LBMidXKTvIU:Data.Set.Base
-import  -/  CryptTools bca904050aa5879b6cce0c2c31cc2e54
-  exports: 1c41cfbc89af9a6be5f984b69614a455
-  B64String 6e441a6f4982f510e21affc39030426c
-  HexString 073d0baaf4a869ea98fb5fdbde5f2ded
-  readB16 f27af5882304a4e9c6b5340985165948
-  showB16 b2db6620c086746be30ea90c5497df3d
-  showB64String 6e9147fd40b49b837ef08be230909281
+import  -/  CryptTools 2e4d2bd2e83907d192c54ee9a9d390fb
+  exports: c909980b76d27233ed171c745923d3bb
+  B64String 75a552c0ea2ee751104c900463897c04
+  HexString 145085bfd2c1dc6791a65af2d4a40a09
+  hexToString 8fcfc973f6206447f6d354aa0f771a7f
+  readB16 c62b0d07d729bc1bdb57d7df81d9cc29
+  showB16 64c376be9f9fbcfcb292e82a14b16ea5
+  showB64String 8a9e5826346bd6641ec267ec1bf8490f
+  xorCharBS 4a0f026614f8b8e77fb80449bf13b0f4
 import  -/  base-4.8.2.0:Data.Bits 87551525e7ef366d0fc4cad44e8b1bfc
+import  -/  base-4.8.2.0:Data.Char c8f827952d4111ae2e47c0b105217cdb
+import  -/  base-4.8.2.0:GHC.Base 1db77db5dae73d8c424c85b09fbadb89
+import  -/  base-4.8.2.0:GHC.Real 1281efa9baf803bc7859d7efb89a38b3
 import  -/  base-4.8.2.0:Prelude 694dcaf039efe62df1c44834e2dbd2fb
 import  -/  bytestring-0.10.6.0@bytes_6VWy06pWzJq9evDvK2d4w6:Data.ByteString effd24476ff7cd481cf047a616a25531
-d84b057117045ab7f3823539545528bd
+fd184405ba5bfc7a338f26c9977b2b62
   ch2_t1 :: CryptTools.HexString
   {- Unfolding: (case GHC.Prim.newMutVar#
                         @ GHC.ForeignPtr.Finalizers
@@ -70,7 +78,7 @@ d84b057117045ab7f3823539545528bd
                    (GHC.ForeignPtr.PlainForeignPtr ipv1)
                    0
                    (GHC.Prim.word2Int# ds4) } }) -}
-7ab3b70e5f780df5979759eb05771df3
+bda8545e968b9d7f6deabe7cab619213
   ch2_t2 :: CryptTools.HexString
   {- Unfolding: (case GHC.Prim.newMutVar#
                         @ GHC.ForeignPtr.Finalizers
@@ -93,10 +101,34 @@ d84b057117045ab7f3823539545528bd
                    (GHC.ForeignPtr.PlainForeignPtr ipv1)
                    0
                    (GHC.Prim.word2Int# ds4) } }) -}
-4ccc5fb81b8a9a75aee3eab080e898af
+eedd130627beff5de52935f978bf9d80
+  ch3_instring :: CryptTools.HexString
+  {- Unfolding: (case GHC.Prim.newMutVar#
+                        @ GHC.ForeignPtr.Finalizers
+                        @ GHC.Prim.RealWorld
+                        GHC.ForeignPtr.NoFinalizers
+                        GHC.Prim.realWorld# of ds1 { (#,#) ipv ipv1 ->
+                 let {
+                   addr# :: GHC.Prim.Addr#
+                   = "1b37373331363f78151b7f2b783431333d78397828372d363c78373e783a393b3736"#
+                 } in
+                 case {__pkg_ccall bytestring-0.10.6.0@bytes_6VWy06pWzJq9evDvK2d4w6 strlen GHC.Prim.Addr#
+                                                                                           -> GHC.Prim.State#
+                                                                                                GHC.Prim.RealWorld
+                                                                                           -> (# GHC.Prim.State#
+                                                                                                   GHC.Prim.RealWorld,
+                                                                                                 GHC.Prim.Word# #)}
+                        addr#
+                        ipv of wild { (#,#) ds3 ds4 ->
+                 Data.ByteString.Internal.PS
+                   addr#
+                   (GHC.ForeignPtr.PlainForeignPtr ipv1)
+                   0
+                   (GHC.Prim.word2Int# ds4) } }) -}
+3e42eb5d776925215bbd2508c8e2c2c0
   chall1 :: CryptTools.B64String
   {- Unfolding: (CryptTools.showB64String Set1.chall4) -}
-098fc8f4d8a234b5d1397a7afd6c812c
+7f0da6c47a5bad1c4072400a621813b4
   chall1_res :: CryptTools.B64String
   {- Unfolding: (case GHC.Prim.newMutVar#
                         @ GHC.ForeignPtr.Finalizers
@@ -120,10 +152,10 @@ d84b057117045ab7f3823539545528bd
                    (GHC.ForeignPtr.PlainForeignPtr ipv1)
                    0
                    (GHC.Prim.word2Int# ds4) } }) -}
-2bba0f0531c75cae9fefaac1b6eb6164
+1dcb763d3163a83009ece65b55aceff2
   chall2 :: CryptTools.HexString
   {- Unfolding: (CryptTools.showB16 Set1.chall5) -}
-2d911d56f12c3ed0296cb9af32248838
+e4a0be364e2fa3803dd70fe4eafef6cb
   chall2_res :: CryptTools.HexString
   {- Unfolding: (case GHC.Prim.newMutVar#
                         @ GHC.ForeignPtr.Finalizers
@@ -146,7 +178,13 @@ d84b057117045ab7f3823539545528bd
                    (GHC.ForeignPtr.PlainForeignPtr ipv1)
                    0
                    (GHC.Prim.word2Int# ds4) } }) -}
-3047a11fbbd38b017d1fead2c182ae8f
+bd17c4c4e34de44557c4069f8d327121
+  chall3 :: [Data.ByteString.Internal.ByteString]
+  {- Unfolding: (Set1.chall3_go 65) -}
+b0c7d1bdbfe1a0d8c7fb461a1d8b80da
+  chall3_go :: GHC.Prim.Int# -> [Data.ByteString.Internal.ByteString]
+  {- Arity: 1, Strictness: <L,U> -}
+c986ea3105c6afbeadc91081683c763d
   chall4 :: [GHC.Word.Word8]
   {- Unfolding: (case Set1.inText of wild { Data.ByteString.Internal.PS dt dt1 dt2 dt3 ->
                  letrec {
@@ -183,18 +221,18 @@ d84b057117045ab7f3823539545528bd
                    (GHC.Ptr.Ptr
                       @ GHC.Word.Word8
                       (GHC.Prim.plusAddr# dt (GHC.Prim.+# dt2 dt3))) }) -}
-810850d1af1073db27f7dca9e009c546
+352d38bc9d5e10890d3635c57e8da1d5
   chall5 :: GHC.Integer.Type.Integer
   {- Unfolding: (GHC.Integer.Type.xorInteger
                    Set1.chall7
                    Set1.chall6) -}
-7d5899d6115e97cc629d574fb0dabbba
+83fd7b5ce52f7836034e956952be375c
   chall6 :: GHC.Integer.Type.Integer
   {- Unfolding: (CryptTools.readB16 Set1.ch2_t2) -}
-d2c01b703f06779899cd6a45a707f9af
+6108fa9fa178d962dc9659b69b0ec443
   chall7 :: GHC.Integer.Type.Integer
   {- Unfolding: (CryptTools.readB16 Set1.ch2_t1) -}
-86accfa9a3eda15b568879ff6d4a7195
+5dfc560752e9e2598e8f64521c356732
   inText :: CryptTools.HexString
   {- Unfolding: (case GHC.Prim.newMutVar#
                         @ GHC.ForeignPtr.Finalizers

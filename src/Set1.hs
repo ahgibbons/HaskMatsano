@@ -3,8 +3,13 @@ module Set1 where
 
 import CryptTools
 import qualified Data.ByteString as BS
+import qualified Data.ByteString.Char8 as BSC
 import Data.Bits
 import Data.Char
+import Data.List
+import Data.Ord
+import System.IO
+import Data.Word8
 
 -- Challenge 1 inText
 -- Hex to B64
@@ -35,4 +40,19 @@ ch3_instring :: HexString
 ch3_instring = "1b37373331363f78151b7f2b783431333d78397828372d363c78373e783a393b3736"
 
 
-chall3 = map (xorCharBS (hexToString ch3_instring) . fromIntegral . ord) ['A'..'z']
+ch3_alldecodes = map (xorCharBS (hexToString ch3_instring)) [_A.._z]
+chall3 = head . reverse . sortBy (comparing fst) $ scores
+  where
+    scores = zip (map englishTest ch3_alldecodes) ch3_alldecodes
+
+-- Challenge 4
+filePath = "4.txt"
+
+chall4 = do
+  fileText <- readFile filePath
+  let fileLines = map BSC.pack $ lines fileText
+      allDecodes hs = map (xorCharBS $ hexToString hs) [_A.._z]
+      topLines = map (\hs -> head . reverse . sortBy (comparing fst)
+                     . zip (map englishTest (allDecodes hs)) $ (allDecodes hs)) fileLines
+  print $ head . reverse . sortBy (comparing fst) $ topLines
+  print topLines

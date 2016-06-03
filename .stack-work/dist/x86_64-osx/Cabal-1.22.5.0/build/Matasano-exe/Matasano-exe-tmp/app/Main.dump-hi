@@ -1,11 +1,11 @@
 
 ==================== FINAL INTERFACE ====================
-2016-06-01 23:33:52.46356 UTC
+2016-06-02 23:17:05.275327 UTC
 
 interface main@main:Main 7103
-  interface hash: 67b8e32a3fa5ca1e2efdeb87de4ca90d
-  ABI hash: 101dc8d213b62c5dfc9bb5d85e8d0ec5
-  export-list hash: 95bbaecd2826fb58357053111f279818
+  interface hash: b7bb89ac09cca151c1813643f5040936
+  ABI hash: 69b6c29e6266e926af7706fecd689ae0
+  export-list hash: d6647f4d40f36c8a5fb4c89ffb9452e4
   orphan hash: 693e9af84d3dfcc71e640e005bdc5e2e
   flag hash: f0299e5ad1a0916c5805e27e66ad9d12
   sig of: Nothing
@@ -14,7 +14,7 @@ interface main@main:Main 7103
 exports:
   Main.main
 module dependencies:
-package dependencies: Matasano-0.1.0.0@Matas_EL5oZZhIsKy82lR7fUB5AU
+package dependencies: Matasano-0.1.0.0@Matas_5owQ4W1svNRDGggvsHH52l
                       array-0.5.1.0@array_67iodizgJQIIxYVTp4emlA base-4.8.2.0
                       bitwise-0.1.1.1@bitwi_1UInExT1dkGBFQ7JfumA61
                       bytestring-0.10.6.0@bytes_6VWy06pWzJq9evDvK2d4w6
@@ -23,6 +23,7 @@ package dependencies: Matasano-0.1.0.0@Matas_EL5oZZhIsKy82lR7fUB5AU
                       deepseq-1.4.1.1@deeps_6vMKxt5sPFR0XsbRWvvq59 ghc-prim-0.4.0.0
                       integer-gmp-1.0.0.0 split-0.2.3.1@split_2IxbOPGrTSq7kFrJA7odmE
                       types-compat-0.1.1@types_4nbjkueFGIp963bsRkjZLR
+                      word8-0.1.2@word8_6yKBsGbmsbLB2UCORShr75
 orphans: base-4.8.2.0:GHC.Base base-4.8.2.0:GHC.Float
 family instance modules: base-4.8.2.0:Control.Applicative
                          base-4.8.2.0:Data.Either base-4.8.2.0:Data.Functor.Identity
@@ -32,16 +33,16 @@ family instance modules: base-4.8.2.0:Control.Applicative
                          bytestring-read-0.3.1@bytes_E70YK5o9wd6F4IFwPKQNVW:Data.ByteString.Read.Class
                          containers-0.5.6.2@conta_2C3ZI8RgPO2LBMidXKTvIU:Data.Map.Base
                          containers-0.5.6.2@conta_2C3ZI8RgPO2LBMidXKTvIU:Data.Set.Base
-import  -/  Matasano-0.1.0.0@Matas_EL5oZZhIsKy82lR7fUB5AU:Set1 5c59d97b23d933c00268352ee3fbb554
+import  -/  Matasano-0.1.0.0@Matas_5owQ4W1svNRDGggvsHH52l:Set1 eb9567dec5bddafed337f7e705958bd3
 import  -/  base-4.8.2.0:Prelude 694dcaf039efe62df1c44834e2dbd2fb
 import  -/  base-4.8.2.0:System.IO 0899686bfc1d9ef72dff3de85e99862a
 import  -/  ghc-prim-0.4.0.0:GHC.Types 6b27fb3fdbd0e3f0925a4496c66513bb
-fbe995c868eaae463f2df388c35bd445
+26e95b47d961023517f4808f52c39f0a
   main :: GHC.Types.IO ()
   {- Arity: 1, Strictness: <L,U>,
      Unfolding: InlineRule (0, True, True)
                 Main.main1 `cast` (Sym (GHC.Types.NTCo:IO[0] <()>_R)) -}
-97ae53e73a76ee851f4301cd2086d202
+f09612c0f2629af63c9e517467a7ac87
   main1 ::
     GHC.Prim.State# GHC.Prim.RealWorld
     -> (# GHC.Prim.State# GHC.Prim.RealWorld, () #)
@@ -53,7 +54,7 @@ fbe995c868eaae463f2df388c35bd445
                    (Data.ByteString.Internal.$fShowByteString_$cshow Set1.chall2)
                    GHC.Types.True
                    eta) -}
-5cea3db1fd9b363248e62826a6142f52
+c74a844e827f0db13c8c67bf02502937
   main2 ::
     GHC.Prim.State# GHC.Prim.RealWorld
     -> (# GHC.Prim.State# GHC.Prim.RealWorld, () #)

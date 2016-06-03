@@ -1,9 +1,9 @@
 
 ==================== FINAL INTERFACE ====================
-2016-06-02 10:11:07.960198 UTC
+2016-06-02 10:22:30.3596428 UTC
 
 interface Matas_5owQ4W1svNRDGggvsHH52l:CryptTools 7103
-  interface hash: 2cd3b79edd8b9c0a5f42ec04f44d8a3e
+  interface hash: 67f0f540a9a7ebae1dc18b2c8621fd14
   ABI hash: 0c8532d7a30789eab9d7fdff54db04c0
   export-list hash: 8166248ba896b1ade28c63dfa1bce64f
   orphan hash: 693e9af84d3dfcc71e640e005bdc5e2e
@@ -63,7 +63,6 @@ import  -/  base-4.8.2.0:Data.Maybe 1cb58de2b04ee3c0c0a7dc9201184aff
 import  -/  base-4.8.2.0:Data.OldList d8fd80b0e14aa085ce6219cd89dad356
 import  -/  base-4.8.2.0:Data.Ord 66127262fc269c8a61d7d87ba94bd4d2
 import  -/  base-4.8.2.0:Data.Tuple 012ad951a59a9d85fe1de36a2f012986
-import  -/  base-4.8.2.0:Data.Word ec8deb535202352cc8b509b14004bcbd
 import  -/  base-4.8.2.0:GHC.Base a4939789b2cfd60b36ed163e56a623cd
 import  -/  base-4.8.2.0:GHC.List 0c736920522bbd14b770342776012ab6
 import  -/  base-4.8.2.0:GHC.Num 9f42750c866f5832ca565146bd660c60

@@ -42,6 +42,13 @@
   (major1) == 0 && (major2) <  2 || \
   (major1) == 0 && (major2) == 2 && (minor) <= 3)
 
+/* package word8-0.1.2 */
+#define VERSION_word8 "0.1.2"
+#define MIN_VERSION_word8(major1,major2,minor) (\
+  (major1) <  0 || \
+  (major1) == 0 && (major2) <  1 || \
+  (major1) == 0 && (major2) == 1 && (minor) <= 2)
+
 /* tool alex-3.1.7 */
 #define TOOL_VERSION_alex "3.1.7"
 #define MIN_TOOL_VERSION_alex(major1,major2,minor) (\
@@ -119,5 +126,5 @@
   (major1) == 0 && (major2) <  29 || \
   (major1) == 0 && (major2) == 29 && (minor) <= 1)
 
-#define CURRENT_PACKAGE_KEY "Matas_EL5oZZhIsKy82lR7fUB5AU"
+#define CURRENT_PACKAGE_KEY "Matas_5owQ4W1svNRDGggvsHH52l"
 

@@ -1,11 +1,11 @@
 
 ==================== FINAL INTERFACE ====================
-2016-06-01 23:59:30.137245 UTC
+2016-06-02 23:23:27.292569 UTC
 
-interface Matas_EL5oZZhIsKy82lR7fUB5AU:CryptTools 7103
-  interface hash: 777567179e34a683f7bbe3ff21bd02e5
-  ABI hash: 479cdd3a1a2f9d64f29339ca53dcd254
-  export-list hash: 1c41cfbc89af9a6be5f984b69614a455
+interface Matas_5owQ4W1svNRDGggvsHH52l:CryptTools 7103
+  interface hash: cf4acebc1c0895eb85aeb89fd73552ac
+  ABI hash: 60023b564a10a48e9a4c6e11dd4084a9
+  export-list hash: c909980b76d27233ed171c745923d3bb
   orphan hash: 693e9af84d3dfcc71e640e005bdc5e2e
   flag hash: 161d16d3422b284d74d35a691dea01b8
   sig of: Nothing
@@ -15,21 +15,24 @@ exports:
   CryptTools.b64List
   CryptTools.b64ListMap
   CryptTools.b64ListMapFlip
-  CryptTools.charCountVector
   CryptTools.countChars
-  CryptTools.eq_char
+  CryptTools.englishTest
+  CryptTools.hexToString
   CryptTools.joinBits
   CryptTools.letterFreqs
   CryptTools.letterPerc
+  CryptTools.mSplitAt
   CryptTools.padd
   CryptTools.readB16
   CryptTools.showB16
   CryptTools.showB64
   CryptTools.showB64String
   CryptTools.showBin
-  CryptTools.similarity
   CryptTools.splitBits
+  CryptTools.stringToHex
+  CryptTools.xorB16
   CryptTools.xorChar
+  CryptTools.xorCharBS
   CryptTools.B64String
   CryptTools.HexString
 module dependencies:
@@ -41,6 +44,7 @@ package dependencies: array-0.5.1.0@array_67iodizgJQIIxYVTp4emlA
                       deepseq-1.4.1.1@deeps_6vMKxt5sPFR0XsbRWvvq59 ghc-prim-0.4.0.0
                       integer-gmp-1.0.0.0 split-0.2.3.1@split_2IxbOPGrTSq7kFrJA7odmE
                       types-compat-0.1.1@types_4nbjkueFGIp963bsRkjZLR
+                      word8-0.1.2@word8_6yKBsGbmsbLB2UCORShr75
 orphans: base-4.8.2.0:GHC.Base base-4.8.2.0:GHC.Float
 family instance modules: base-4.8.2.0:Control.Applicative
                          base-4.8.2.0:Data.Either base-4.8.2.0:Data.Functor.Identity
@@ -58,7 +62,6 @@ import  -/  base-4.8.2.0:Data.Maybe 1cb58de2b04ee3c0c0a7dc9201184aff
 import  -/  base-4.8.2.0:Data.OldList d8fd80b0e14aa085ce6219cd89dad356
 import  -/  base-4.8.2.0:Data.Ord 66127262fc269c8a61d7d87ba94bd4d2
 import  -/  base-4.8.2.0:Data.Tuple 012ad951a59a9d85fe1de36a2f012986
-import  -/  base-4.8.2.0:Data.Word ec8deb535202352cc8b509b14004bcbd
 import  -/  base-4.8.2.0:GHC.Base 1db77db5dae73d8c424c85b09fbadb89
 import  -/  base-4.8.2.0:GHC.List 0c736920522bbd14b770342776012ab6
 import  -/  base-4.8.2.0:GHC.Num 9f42750c866f5832ca565146bd660c60
@@ -73,11 +76,252 @@ import  -/  bytestring-0.10.6.0@bytes_6VWy06pWzJq9evDvK2d4w6:Data.ByteString eff
 import  -/  bytestring-0.10.6.0@bytes_6VWy06pWzJq9evDvK2d4w6:Data.ByteString.Char8 893c19fbf58ee60a22fc906f46ccd8aa
 import  -/  bytestring-0.10.6.0@bytes_6VWy06pWzJq9evDvK2d4w6:Data.ByteString.Internal 5277858ffbc0cf52849c8ef7e713c6ac
 import  -/  bytestring-read-0.3.1@bytes_E70YK5o9wd6F4IFwPKQNVW:Data.ByteString.Read 02bd44212b38953ca43babd46a186e62
+import  -/  containers-0.5.6.2@conta_2C3ZI8RgPO2LBMidXKTvIU:Data.Map.Base 8b0bee2cbf19008d0429e93c882cbe4e
 import  -/  containers-0.5.6.2@conta_2C3ZI8RgPO2LBMidXKTvIU:Data.Map.Strict 2e796f3ebd5f3ce783e00a01f5cdcaa8
 import  -/  ghc-prim-0.4.0.0:GHC.Classes e1f4ff80f7b5262008a595d29986fb18
 import  -/  integer-gmp-1.0.0.0:GHC.Integer.Type 371e90fe753f08ddedf0d2657a9ef5c4
 import  -/  split-0.2.3.1@split_2IxbOPGrTSq7kFrJA7odmE:Data.List.Split 487cc1966f0f25916f1ba58bdff4b0ee
-2e370b105d9b6689170a2de57e4f2398
+import  -/  word8-0.1.2@word8_6yKBsGbmsbLB2UCORShr75:Data.Word8 a01147ba26a2bfc60193452ee1b281ba
+67715f908cd01ad0d703e810ad2e5eac
+  $w$sgo4 ::
+    (GHC.Word.Word8 -> a1 -> a1 -> a1)
+    -> GHC.Prim.Word#
+    -> a1
+    -> Data.Map.Base.Map GHC.Word.Word8 a1
+    -> Data.Map.Base.Map GHC.Word.Word8 a1
+  {- Arity: 4, Strictness: <L,1*C1(C1(C1(U)))><L,U><L,U><S,1*U>,
+     Inline: [0] -}
+e71f71ae99b0900b718cdae722ec1b4f
+  $wcountChars ::
+    GHC.Prim.Addr#
+    -> GHC.ForeignPtr.ForeignPtrContents
+    -> GHC.Prim.Int#
+    -> GHC.Prim.Int#
+    -> Data.Map.Base.Map GHC.Word.Word8 GHC.Types.Int
+  {- Arity: 4, Strictness: <L,U><L,U><L,U><L,U>, Inline: [0],
+     Unfolding: (\ ww :: GHC.Prim.Addr#
+                   ww1 :: GHC.ForeignPtr.ForeignPtrContents
+                   ww2 :: GHC.Prim.Int#
+                   ww3 :: GHC.Prim.Int# ->
+                 letrec {
+                   $wa :: GHC.Prim.Int#
+                          -> GHC.Prim.Addr#
+                          -> GHC.Prim.Addr#
+                          -> GHC.Prim.State# GHC.Prim.RealWorld
+                          -> (# GHC.Prim.State# GHC.Prim.RealWorld, () #)
+                     {- Arity: 4, Strictness: <L,U><L,U><L,U><L,U>, Inline: [0] -}
+                   = \ ww4 :: GHC.Prim.Int#
+                       ww5 :: GHC.Prim.Addr#
+                       ww6 :: GHC.Prim.Addr#
+                       w :: GHC.Prim.State# GHC.Prim.RealWorld[OneShot] ->
+                     case GHC.Prim.tagToEnum#
+                            @ GHC.Types.Bool
+                            (GHC.Prim.>=# ww4 ww3) of wild1 {
+                       GHC.Types.False
+                       -> case GHC.Prim.readWord8OffAddr#
+                                 @ GHC.Prim.RealWorld
+                                 (GHC.Prim.plusAddr# ww5 ww4)
+                                 0
+                                 w of ds2 { (#,#) ipv ipv1 ->
+                          case Data.Word8.$wisUpper ipv1 of wild {
+                            GHC.Types.False
+                            -> case GHC.Prim.writeWord8OffAddr#
+                                      @ GHC.Prim.RealWorld
+                                      (GHC.Prim.plusAddr# ww6 ww4)
+                                      0
+                                      ipv1
+                                      ipv of s2 { DEFAULT ->
+                               $wa (GHC.Prim.+# ww4 1) ww5 ww6 s2 }
+                            GHC.Types.True
+                            -> case GHC.Prim.writeWord8OffAddr#
+                                      @ GHC.Prim.RealWorld
+                                      (GHC.Prim.plusAddr# ww6 ww4)
+                                      0
+                                      (GHC.Prim.narrow8Word# (GHC.Prim.plusWord# ipv1 __word 32))
+                                      ipv of s2 { DEFAULT ->
+                               $wa (GHC.Prim.+# ww4 1) ww5 ww6 s2 } } }
+                       GHC.Types.True -> (# w, GHC.Tuple.() #) }
+                 } in
+                 case GHC.IO.unsafeDupablePerformIO
+                        @ Data.ByteString.Internal.ByteString
+                        (\ s :: GHC.Prim.State# GHC.Prim.RealWorld[OneShot] ->
+                         case GHC.Prim.tagToEnum#
+                                @ GHC.Types.Bool
+                                (GHC.Prim.<# ww3 0) of wild1 {
+                           GHC.Types.False
+                           -> case GHC.Prim.newPinnedByteArray#
+                                     @ GHC.Prim.RealWorld
+                                     ww3
+                                     s of ds { (#,#) ipv ipv1 ->
+                              let {
+                                a3 :: GHC.Prim.Addr#
+                                = GHC.Prim.byteArrayContents#
+                                    ipv1
+                                      `cast`
+                                    (UnivCo mkUnsafeCo representational (GHC.Prim.MutableByteArray#
+                                                                           GHC.Prim.RealWorld) GHC.Prim.ByteArray#)
+                              } in
+                              case $wa
+                                     0
+                                     (GHC.Prim.plusAddr# ww ww2)
+                                     a3
+                                     ipv of ds1 { (#,#) ipv2 ipv3 ->
+                              let {
+                                a4 :: GHC.ForeignPtr.ForeignPtrContents
+                                = GHC.ForeignPtr.PlainPtr ipv1
+                              } in
+                              case GHC.Prim.touch#
+                                     @ GHC.ForeignPtr.ForeignPtrContents
+                                     a4
+                                     ipv2 of s' { DEFAULT ->
+                              case GHC.Prim.touch#
+                                     @ GHC.ForeignPtr.ForeignPtrContents
+                                     ww1
+                                     s' of s'1 { DEFAULT ->
+                              (# s'1, Data.ByteString.Internal.PS a3 a4 0 ww3 #) } } } }
+                           GHC.Types.True
+                           -> case GHC.ForeignPtr.mallocPlainForeignPtrBytes2
+                              ret_ty (# GHC.Prim.State# GHC.Prim.RealWorld,
+                                        Data.ByteString.Internal.ByteString #)
+                              of {} })
+                          `cast`
+                        (Sym (GHC.Types.NTCo:IO[0]
+                                  <Data.ByteString.Internal.ByteString>_R)) of wild { Data.ByteString.Internal.PS dt dt1 dt2 dt3 ->
+                 letrec {
+                   $wgo2 :: GHC.Prim.Addr#
+                            -> GHC.Prim.Addr# -> Data.Map.Base.Map GHC.Word.Word8 GHC.Types.Int
+                     {- Arity: 2, Strictness: <L,U><L,U>, Inline: [0] -}
+                   = \ ww4 :: GHC.Prim.Addr# ww5 :: GHC.Prim.Addr# ->
+                     case GHC.Prim.tagToEnum#
+                            @ GHC.Types.Bool
+                            (GHC.Prim.eqAddr# ww4 ww5) of wild1 {
+                       GHC.Types.False
+                       -> case GHC.Prim.readWord8OffAddr#
+                                 @ GHC.Prim.RealWorld
+                                 ww4
+                                 0
+                                 GHC.Prim.realWorld# of ds2 { (#,#) ipv ipv1 ->
+                          case GHC.Prim.touch#
+                                 @ GHC.ForeignPtr.ForeignPtrContents
+                                 dt1
+                                 ipv of s' { DEFAULT ->
+                          CryptTools.$w$sgo4
+                            @ GHC.Types.Int
+                            CryptTools.countChars2
+                            ipv1
+                            CryptTools.countChars1
+                            ($wgo2 (GHC.Prim.plusAddr# ww4 1) ww5) } }
+                       GHC.Types.True
+                       -> Data.Map.Base.Tip @ GHC.Word.Word8 @ GHC.Types.Int }
+                 } in
+                 $wgo2
+                   (GHC.Prim.plusAddr# dt dt2)
+                   (GHC.Prim.plusAddr# dt (GHC.Prim.+# dt2 dt3)) }) -}
+a42a16cf7c6f7acc967fd0ca5cf742f2
+  $whexToString ::
+    GHC.Prim.Addr#
+    -> GHC.ForeignPtr.ForeignPtrContents
+    -> GHC.Prim.Int#
+    -> GHC.Prim.Int#
+    -> Data.ByteString.Internal.ByteString
+  {- Arity: 4, Strictness: <L,U><L,U><L,U><L,U>, Inline: [0] -}
+a26bec6fb985569f44f72f6eacecc4ec
+  $wmSplitAt ::
+    GHC.Types.Int
+    -> GHC.Prim.Addr#
+    -> GHC.ForeignPtr.ForeignPtrContents
+    -> GHC.Prim.Int#
+    -> GHC.Prim.Int#
+    -> GHC.Base.Maybe
+         (Data.ByteString.Internal.ByteString,
+          Data.ByteString.Internal.ByteString)
+  {- Arity: 5, Strictness: <L,1*U(U)><L,U><L,U><L,U><L,U>,
+     Inline: [0],
+     Unfolding: (\ w :: GHC.Types.Int
+                   ww :: GHC.Prim.Addr#
+                   ww1 :: GHC.ForeignPtr.ForeignPtrContents
+                   ww2 :: GHC.Prim.Int#
+                   ww3 :: GHC.Prim.Int# ->
+                 case CryptTools.mSplitAt1 of wild1 { Data.ByteString.Internal.PS dt4 dt5 dt6 dt7 ->
+                 let {
+                   $j :: GHC.Prim.Void#
+                         -> GHC.Base.Maybe
+                              (Data.ByteString.Internal.ByteString,
+                               Data.ByteString.Internal.ByteString)
+                     {- Arity: 1, Strictness: <L,A> -}
+                   = \ w1 :: GHC.Prim.Void#[OneShot] ->
+                     GHC.Base.Just
+                       @ (Data.ByteString.Internal.ByteString,
+                          Data.ByteString.Internal.ByteString)
+                       (case w of wild2 { GHC.Types.I# x ->
+                        case GHC.Prim.tagToEnum#
+                               @ GHC.Types.Bool
+                               (GHC.Prim.<=# x 0) of wild3 {
+                          GHC.Types.False
+                          -> case GHC.Prim.tagToEnum#
+                                    @ GHC.Types.Bool
+                                    (GHC.Prim.>=# x ww3) of wild4 {
+                               GHC.Types.False
+                               -> (Data.ByteString.Internal.PS ww ww1 ww2 x,
+                                   Data.ByteString.Internal.PS
+                                     ww
+                                     ww1
+                                     (GHC.Prim.+# ww2 x)
+                                     (GHC.Prim.-# ww3 x))
+                               GHC.Types.True
+                               -> (Data.ByteString.Internal.PS ww ww1 ww2 ww3,
+                                   Data.ByteString.empty) }
+                          GHC.Types.True
+                          -> (Data.ByteString.empty,
+                              Data.ByteString.Internal.PS ww ww1 ww2 ww3) } })
+                 } in
+                 case GHC.Prim.tagToEnum#
+                        @ GHC.Types.Bool
+                        (GHC.Prim./=# ww3 dt7) of wild2 {
+                   GHC.Types.False
+                   -> case GHC.Prim.tagToEnum#
+                             @ GHC.Types.Bool
+                             (GHC.Prim.eqAddr# ww dt4) of wild {
+                        GHC.Types.False
+                        -> case Data.ByteString.Internal.$wcompareBytes
+                                  ww
+                                  ww1
+                                  ww2
+                                  ww3
+                                  dt4
+                                  dt5
+                                  dt6
+                                  dt7 of wild4 {
+                             DEFAULT -> $j GHC.Prim.void#
+                             GHC.Types.EQ
+                             -> GHC.Base.Nothing
+                                  @ (Data.ByteString.Internal.ByteString,
+                                     Data.ByteString.Internal.ByteString) }
+                        GHC.Types.True
+                        -> case GHC.Prim.tagToEnum#
+                                  @ GHC.Types.Bool
+                                  (GHC.Prim.==# ww2 dt6) of wild3 {
+                             GHC.Types.False
+                             -> case Data.ByteString.Internal.$wcompareBytes
+                                       ww
+                                       ww1
+                                       ww2
+                                       ww3
+                                       dt4
+                                       dt5
+                                       dt6
+                                       dt7 of wild4 {
+                                  DEFAULT -> $j GHC.Prim.void#
+                                  GHC.Types.EQ
+                                  -> GHC.Base.Nothing
+                                       @ (Data.ByteString.Internal.ByteString,
+                                          Data.ByteString.Internal.ByteString) }
+                             GHC.Types.True
+                             -> GHC.Base.Nothing
+                                  @ (Data.ByteString.Internal.ByteString,
+                                     Data.ByteString.Internal.ByteString) } }
+                   GHC.Types.True -> $j GHC.Prim.void# } }) -}
+872656993999bd567f98731be4218d65
   $wpadd :: a -> GHC.Prim.Int# -> [a] -> [a]
   {- Arity: 3, Strictness: <L,U><S,U><L,U>, Inline: [0],
      Unfolding: (\ @ a3 w :: a3 ww :: GHC.Prim.Int# w1 :: [a3] ->
@@ -95,7 +339,7 @@ import  -/  split-0.2.3.1@split_2IxbOPGrTSq7kFrJA7odmE:Data.List.Split 487cc1966
                             GHC.Types.False -> w1
                             GHC.Types.True
                             -> let {
-                                 lvl3 :: [a3] = GHC.Types.: @ a3 w w1
+                                 lvl5 :: [a3] = GHC.Types.: @ a3 w w1
                                } in
                                letrec {
                                  $wxs2 :: GHC.Prim.Int# -> [a3]
@@ -103,7 +347,7 @@ import  -/  split-0.2.3.1@split_2IxbOPGrTSq7kFrJA7odmE:Data.List.Split 487cc1966
                                  = \ ww1 :: GHC.Prim.Int# ->
                                    case ww1 of ds1 {
                                      DEFAULT -> GHC.Types.: @ a3 w ($wxs2 (GHC.Prim.-# ds1 1))
-                                     1 -> lvl3 }
+                                     1 -> lvl5 }
                                } in
                                $wxs2 y }
                        0 -> w1 }
@@ -114,98 +358,275 @@ import  -/  split-0.2.3.1@split_2IxbOPGrTSq7kFrJA7odmE:Data.List.Split 487cc1966
                       case GHC.Classes.modInt# ww2 wild of ww1 { DEFAULT -> $j ww1 } }
                    (-1) -> $j 0
                    0 -> case GHC.Real.divZeroError ret_ty [a3] of {} }) -}
-c04fcb404725cb7020cf6a04907634ad
+748f6732931a80a745e50992bc119193
+  $wpoly_go10 ::
+    GHC.Prim.Word#
+    -> Data.Map.Base.Map GHC.Word.Word8 a -> GHC.Base.Maybe a
+  {- Arity: 2, HasNoCafRefs, Strictness: <L,U><S,1*U>, Inline: [0] -}
+c3162bc2f68eca638fd486a59e784c68
+  $wstringToHex ::
+    GHC.Prim.Addr#
+    -> GHC.ForeignPtr.ForeignPtrContents
+    -> GHC.Prim.Int#
+    -> GHC.Prim.Int#
+    -> Data.ByteString.Internal.ByteString
+  {- Arity: 4, Strictness: <L,U><L,U><L,U><L,U>, Inline: [0],
+     Unfolding: (\ ww :: GHC.Prim.Addr#
+                   ww1 :: GHC.ForeignPtr.ForeignPtrContents
+                   ww2 :: GHC.Prim.Int#
+                   ww3 :: GHC.Prim.Int# ->
+                 letrec {
+                   $wgo2 :: GHC.Prim.Addr#
+                            -> GHC.Prim.Addr# -> [Data.ByteString.Internal.ByteString]
+                     {- Arity: 2, Strictness: <L,U><L,U>, Inline: [0] -}
+                   = \ ww4 :: GHC.Prim.Addr# ww5 :: GHC.Prim.Addr# ->
+                     case GHC.Prim.tagToEnum#
+                            @ GHC.Types.Bool
+                            (GHC.Prim.eqAddr# ww4 ww5) of wild1 {
+                       GHC.Types.False
+                       -> case GHC.Prim.readWord8OffAddr#
+                                 @ GHC.Prim.RealWorld
+                                 ww4
+                                 0
+                                 GHC.Prim.realWorld# of ds2 { (#,#) ipv ipv1 ->
+                          case GHC.Prim.touch#
+                                 @ GHC.ForeignPtr.ForeignPtrContents
+                                 ww1
+                                 ipv of s' { DEFAULT ->
+                          GHC.Types.:
+                            @ Data.ByteString.Internal.ByteString
+                            (let {
+                               cs :: [GHC.Types.Char]
+                               = Numeric.showIntAtBase
+                                   @ GHC.Integer.Type.Integer
+                                   GHC.Real.$fIntegralInteger
+                                   GHC.Show.$fShowInteger
+                                   Numeric.showHex1
+                                   GHC.Show.intToDigit
+                                   (GHC.Integer.Type.smallInteger (GHC.Prim.word2Int# ipv1))
+                                   (GHC.Types.[] @ GHC.Types.Char)
+                             } in
+                             Data.ByteString.Internal.unsafePackLenChars
+                               (case GHC.List.$wlenAcc @ GHC.Types.Char cs 0 of ww6 { DEFAULT ->
+                                GHC.Types.I# ww6 })
+                               cs)
+                            ($wgo2 (GHC.Prim.plusAddr# ww4 1) ww5) } }
+                       GHC.Types.True
+                       -> GHC.Types.[] @ Data.ByteString.Internal.ByteString }
+                 } in
+                 Data.ByteString.Internal.$fMonoidByteString_$cmconcat
+                   ($wgo2
+                      (GHC.Prim.plusAddr# ww ww2)
+                      (GHC.Prim.plusAddr# ww (GHC.Prim.+# ww2 ww3)))) -}
+c2c501ae21d1903f390cdea614788645
+  $wxorCharBS ::
+    GHC.Prim.Addr#
+    -> GHC.ForeignPtr.ForeignPtrContents
+    -> GHC.Prim.Int#
+    -> GHC.Prim.Int#
+    -> GHC.Word.Word8
+    -> Data.ByteString.Internal.ByteString
+  {- Arity: 5, Strictness: <L,U><L,U><L,U><L,U><L,U(U)>, Inline: [0],
+     Unfolding: (\ ww :: GHC.Prim.Addr#
+                   ww1 :: GHC.ForeignPtr.ForeignPtrContents
+                   ww2 :: GHC.Prim.Int#
+                   ww3 :: GHC.Prim.Int#
+                   w :: GHC.Word.Word8 ->
+                 letrec {
+                   $wa :: GHC.Prim.Int#
+                          -> GHC.Prim.Addr#
+                          -> GHC.Prim.Addr#
+                          -> GHC.Prim.State# GHC.Prim.RealWorld
+                          -> (# GHC.Prim.State# GHC.Prim.RealWorld, () #)
+                     {- Arity: 4, Strictness: <L,U><L,U><L,U><L,U>, Inline: [0] -}
+                   = \ ww4 :: GHC.Prim.Int#
+                       ww5 :: GHC.Prim.Addr#
+                       ww6 :: GHC.Prim.Addr#
+                       w1 :: GHC.Prim.State# GHC.Prim.RealWorld[OneShot] ->
+                     case GHC.Prim.tagToEnum#
+                            @ GHC.Types.Bool
+                            (GHC.Prim.>=# ww4 ww3) of wild1 {
+                       GHC.Types.False
+                       -> case GHC.Prim.readWord8OffAddr#
+                                 @ GHC.Prim.RealWorld
+                                 (GHC.Prim.plusAddr# ww5 ww4)
+                                 0
+                                 w1 of ds2 { (#,#) ipv ipv1 ->
+                          case w of wild { GHC.Word.W8# x# ->
+                          case GHC.Prim.writeWord8OffAddr#
+                                 @ GHC.Prim.RealWorld
+                                 (GHC.Prim.plusAddr# ww6 ww4)
+                                 0
+                                 (GHC.Prim.xor# x# ipv1)
+                                 ipv of s2 { DEFAULT ->
+                          $wa (GHC.Prim.+# ww4 1) ww5 ww6 s2 } } }
+                       GHC.Types.True -> (# w1, GHC.Tuple.() #) }
+                 } in
+                 GHC.IO.unsafeDupablePerformIO
+                   @ Data.ByteString.Internal.ByteString
+                   (\ s :: GHC.Prim.State# GHC.Prim.RealWorld[OneShot] ->
+                    case GHC.Prim.tagToEnum#
+                           @ GHC.Types.Bool
+                           (GHC.Prim.<# ww3 0) of wild1 {
+                      GHC.Types.False
+                      -> case GHC.Prim.newPinnedByteArray#
+                                @ GHC.Prim.RealWorld
+                                ww3
+                                s of ds { (#,#) ipv ipv1 ->
+                         let {
+                           a3 :: GHC.Prim.Addr#
+                           = GHC.Prim.byteArrayContents#
+                               ipv1
+                                 `cast`
+                               (UnivCo mkUnsafeCo representational (GHC.Prim.MutableByteArray#
+                                                                      GHC.Prim.RealWorld) GHC.Prim.ByteArray#)
+                         } in
+                         case $wa
+                                0
+                                (GHC.Prim.plusAddr# ww ww2)
+                                a3
+                                ipv of ds1 { (#,#) ipv2 ipv3 ->
+                         let {
+                           a4 :: GHC.ForeignPtr.ForeignPtrContents
+                           = GHC.ForeignPtr.PlainPtr ipv1
+                         } in
+                         case GHC.Prim.touch#
+                                @ GHC.ForeignPtr.ForeignPtrContents
+                                a4
+                                ipv2 of s' { DEFAULT ->
+                         case GHC.Prim.touch#
+                                @ GHC.ForeignPtr.ForeignPtrContents
+                                ww1
+                                s' of s'1 { DEFAULT ->
+                         (# s'1, Data.ByteString.Internal.PS a3 a4 0 ww3 #) } } } }
+                      GHC.Types.True
+                      -> case GHC.ForeignPtr.mallocPlainForeignPtrBytes2
+                         ret_ty (# GHC.Prim.State# GHC.Prim.RealWorld,
+                                   Data.ByteString.Internal.ByteString #)
+                         of {} })
+                     `cast`
+                   (Sym (GHC.Types.NTCo:IO[0]
+                             <Data.ByteString.Internal.ByteString>_R))) -}
+753cf457c32423a0278aa8959dde676d
   $wxs :: GHC.Prim.Int# -> [GHC.Word.Word8]
   {- Arity: 1, HasNoCafRefs, Strictness: <S,1*U>, Inline: [0] -}
-301b5a5470ceacb17d3835d679f35612
+6bfc243239a069a5f4c18ead2f55a65e
   $wxs1 :: GHC.Prim.Int# -> [GHC.Word.Word8]
   {- Arity: 1, HasNoCafRefs, Strictness: <S,1*U>, Inline: [0] -}
-6e441a6f4982f510e21affc39030426c
+75a552c0ea2ee751104c900463897c04
   type B64String = Data.ByteString.Internal.ByteString
-073d0baaf4a869ea98fb5fdbde5f2ded
+145085bfd2c1dc6791a65af2d4a40a09
   type HexString = Data.ByteString.Internal.ByteString
-db6d980a6b5aa0092dbce0ae86e0d0b4
+01a84fdb3cdfa0933288b273de4b6cf3
   b64List :: [GHC.Types.Char]
   {- Unfolding: (CryptTools.b64List_go 65) -}
-168ad4ceaf6939e32d38926eea6c395b
+f5e7e9a6ce9947ff29220bd33859ae95
   b64ListMap :: [(GHC.Types.Int, GHC.Types.Char)]
   {- Unfolding: (CryptTools.b64ListMap_go 0 CryptTools.b64List) -}
-0cb992f2ce11824bd2410e8ad21accc1
+4639d327b9e2754a919b013d69bc3a51
   b64ListMapFlip :: [(GHC.Types.Char, GHC.Types.Int)]
   {- Unfolding: (GHC.List.zip
                    @ GHC.Types.Char
                    @ GHC.Types.Int
                    CryptTools.b64List
                    CryptTools.b64ListMapFlip1) -}
-cea74231498a6c3c0596d310cab1d00c
+1f5d03d09ee55d6b5c32ff4bacd81023
   b64ListMapFlip1 :: [GHC.Types.Int]
   {- Unfolding: (GHC.Enum.eftInt 0 9223372036854775807) -}
-bc71be17500b42ccde49d9aab52a1526
+531236722272b81baa5a6700c3763a28
   b64ListMap_go ::
     GHC.Prim.Int#
     -> [GHC.Types.Char] -> [(GHC.Types.Int, GHC.Types.Char)]
   {- Arity: 2, HasNoCafRefs, Strictness: <L,U><S,1*U> -}
-2ee7dc4c73caee981292d01d6081c14c
+7f89c7762d6b8070de755c57d2c8147c
   b64List_go :: GHC.Prim.Int# -> [GHC.Types.Char]
   {- Arity: 1, Strictness: <L,U> -}
-04d817f3c6e800e4f63f58494393cc68
-  charCountVector ::
-    GHC.Base.String
-    -> [(GHC.Types.Char, GHC.Types.Int)] -> [GHC.Types.Int]
-  {- Arity: 2, HasNoCafRefs, Strictness: <S,1*U><L,U>,
-     Unfolding: (\ alphabet :: GHC.Base.String
-                   charCount :: [(GHC.Types.Char, GHC.Types.Int)] ->
-                 GHC.Base.map
-                   @ GHC.Types.Char
-                   @ GHC.Types.Int
-                   (\ y :: GHC.Types.Char ->
-                    case GHC.List.lookup
-                           @ GHC.Types.Char
-                           @ GHC.Types.Int
-                           GHC.Classes.$fEqChar
-                           y
-                           charCount of wild {
-                      GHC.Base.Nothing -> CryptTools.charCountVector1
-                      GHC.Base.Just n2 -> n2 })
-                   alphabet) -}
-e3d7a1913fbdeeb7ba5c50352e511a88
-  charCountVector1 :: GHC.Types.Int
-  {- HasNoCafRefs, Unfolding: (GHC.Types.I# 0) -}
-3db570481c567be0238a7864ea94fd64
+ae8a206dc935ae924e531df9e974e92a
   countChars ::
-    GHC.Base.String
-    -> GHC.Base.String -> [(GHC.Types.Char, GHC.Types.Int)]
-  {- Arity: 2, Strictness: <L,U><S,1*U>,
-     Unfolding: (\ alphabet :: GHC.Base.String
-                   string :: GHC.Base.String ->
-                 GHC.Base.map
-                   @ [GHC.Types.Char]
-                   @ (GHC.Types.Char, GHC.Types.Int)
-                   CryptTools.countChars1
-                   (Data.OldList.groupBy
-                      @ GHC.Types.Char
-                      GHC.Classes.$fEqChar_$c==
-                      (Data.OldList.sortBy
-                         @ GHC.Types.Char
-                         GHC.Classes.$fOrdChar_$ccompare
-                         (GHC.List.filter
-                            @ GHC.Types.Char
-                            (\ ds :: GHC.Types.Char ->
-                             GHC.List.elem @ GHC.Types.Char GHC.Classes.$fEqChar ds alphabet)
-                            string)))) -}
-9818256d54a42fcd5617d9f54a015a95
-  countChars1 :: [GHC.Types.Char] -> (GHC.Types.Char, GHC.Types.Int)
-  {- Arity: 1, Strictness: <L,U>m,
+    Data.ByteString.Internal.ByteString
+    -> Data.Map.Base.Map GHC.Word.Word8 GHC.Types.Int
+  {- Arity: 1, Strictness: <S,1*U(U,U,U,U)>, Inline: INLINE[0],
      Unfolding: InlineRule (1, True, False)
-                (\ cs :: [GHC.Types.Char] ->
-                 (GHC.List.head @ GHC.Types.Char cs,
-                  case GHC.List.$wlenAcc @ GHC.Types.Char cs 0 of ww2 { DEFAULT ->
-                  GHC.Types.I# ww2 })) -}
-b42410e33654e3ea1bf58986ef36efa1
-  eq_char :: GHC.Word.Word8
-  {- HasNoCafRefs, Strictness: m,
-     Unfolding: (GHC.Word.W8# __word 61) -}
-a1aa0d5e300e15b44563a875cfeaed2b
+                (\ w :: Data.ByteString.Internal.ByteString ->
+                 case w of ww { Data.ByteString.Internal.PS ww1 ww2 ww3 ww4 ->
+                 CryptTools.$wcountChars ww1 ww2 ww3 ww4 }) -}
+33eb8e739ec91903c48a5e8c6995d194
+  countChars1 :: GHC.Types.Int
+  {- HasNoCafRefs, Strictness: m, Unfolding: (GHC.Types.I# 1) -}
+aa59d7e7a595665bf5565fd432febeeb
+  countChars2 ::
+    GHC.Word.Word8 -> GHC.Types.Int -> GHC.Types.Int -> GHC.Types.Int
+  {- Arity: 3, HasNoCafRefs,
+     Unfolding: (\ ds :: GHC.Word.Word8[OneShot]
+                   x' :: GHC.Types.Int[OneShot]
+                   y' :: GHC.Types.Int[OneShot] ->
+                 GHC.Num.$fNumInt_$c+ x' y') -}
+d4743f96dc170656f8f0c486610c4a13
+  englishTest ::
+    GHC.Real.Fractional b => Data.ByteString.Internal.ByteString -> [b]
+  {- Arity: 2, Strictness: <L,U(1*U,C(C1(U)),A,A)><L,1*U(U,U,U,U)>,
+     Unfolding: (\ @ b
+                   $dFractional :: GHC.Real.Fractional b
+                   eta :: Data.ByteString.Internal.ByteString ->
+                 let {
+                   $dNum :: GHC.Num.Num b = GHC.Real.$p1Fractional @ b $dFractional
+                 } in
+                 let {
+                   charMap :: Data.Map.Base.Map GHC.Word.Word8 GHC.Types.Int
+                   = case eta of ww { Data.ByteString.Internal.PS ww1 ww2 ww3 ww4 ->
+                     CryptTools.$wcountChars ww1 ww2 ww3 ww4 }
+                 } in
+                 let {
+                   charVector :: [b]
+                   = GHC.Base.map
+                       @ GHC.Word.Word8
+                       @ b
+                       (\ c :: GHC.Word.Word8 ->
+                        GHC.Num.fromInteger
+                          @ b
+                          $dNum
+                          (case c of ww { GHC.Word.W8# ww1 ->
+                           case CryptTools.$wpoly_go10 @ GHC.Types.Int ww1 charMap of wild {
+                             GHC.Base.Nothing -> CryptTools.englishTest2
+                             GHC.Base.Just v
+                             -> case v of wild1 { GHC.Types.I# i ->
+                                GHC.Integer.Type.smallInteger i } } }))
+                       CryptTools.englishTest1
+                 } in
+                 GHC.Base.map
+                   @ b
+                   @ b
+                   (let {
+                      ds :: b
+                      = let {
+                          k :: b -> b -> b = GHC.Num.+ @ b $dNum
+                        } in
+                        letrec {
+                          go1 :: [b] -> b -> b {- Arity: 2, Strictness: <S,1*U><L,U> -}
+                          = \ ds1 :: [b] eta1 :: b ->
+                            case ds1 of wild { [] -> eta1 : y ys -> go1 ys (k eta1 y) }
+                        } in
+                        go1
+                          charVector
+                          (GHC.Num.fromInteger @ b $dNum CryptTools.englishTest2)
+                    } in
+                    \ ds1 :: b -> GHC.Real./ @ b $dFractional ds1 ds)
+                   charVector) -}
+b955a04ed7931eac0bd630413fca16a2
+  englishTest1 :: [GHC.Word.Word8]
+  {- Unfolding: (GHC.Word.$w$cenumFromTo2 __word 97 __word 122) -}
+57e563ae501f97ad1049322880775672
+  englishTest2 :: GHC.Integer.Type.Integer
+  {- HasNoCafRefs, Unfolding: (__integer 0) -}
+8fcfc973f6206447f6d354aa0f771a7f
+  hexToString ::
+    CryptTools.HexString -> Data.ByteString.Internal.ByteString
+  {- Arity: 1, Strictness: <S,1*U(U,U,U,U)>, Inline: INLINE[0],
+     Unfolding: InlineRule (1, True, False)
+                (\ w :: CryptTools.HexString ->
+                 case w of ww { Data.ByteString.Internal.PS ww1 ww2 ww3 ww4 ->
+                 CryptTools.$whexToString ww1 ww2 ww3 ww4 }) -}
+db1a04be2f6271c78ce25a72eebf82a6
   joinBits ::
     (GHC.Real.Integral a, GHC.Num.Num b, Data.Bits.Bits b) =>
     GHC.Types.Int -> [a] -> b
@@ -229,7 +650,7 @@ a1aa0d5e300e15b44563a875cfeaed2b
                    a4 :: b -> b -> b = Data.Bits..|. @ b $dBits
                  } in
                  let {
-                   z :: b = GHC.Num.fromInteger @ b $dNum CryptTools.joinBits1
+                   z :: b = GHC.Num.fromInteger @ b $dNum CryptTools.englishTest2
                  } in
                  let {
                    c :: GHC.Types.Int -> ([a3] -> b) -> [a3] -> b
@@ -264,10 +685,7 @@ a1aa0d5e300e15b44563a875cfeaed2b
                    -> GHC.Enum.efdtIntDnFB @ ([a3] -> b) c n2 x1 x2 0 wlist
                    GHC.Types.True
                    -> GHC.Enum.efdtIntUpFB @ ([a3] -> b) c n2 x1 x2 0 wlist } }) -}
-a1e3e0cd2082fe2272e3acccca082199
-  joinBits1 :: GHC.Integer.Type.Integer
-  {- HasNoCafRefs, Unfolding: (__integer 0) -}
-d796afcc43e231669c78463c43a31a15
+136f9f211dee72f8ca59c22ae5770b4f
   joinBits_$sjoinBits ::
     GHC.Types.Int -> [GHC.Word.Word8] -> GHC.Integer.Type.Integer
   {- Arity: 2, Strictness: <L,U(U)><S,U>,
@@ -290,7 +708,7 @@ d796afcc43e231669c78463c43a31a15
                        _r :: [GHC.Word.Word8] -> GHC.Integer.Type.Integer[OneShot]
                        ds :: [GHC.Word.Word8] ->
                      case ds of wild {
-                       [] -> CryptTools.joinBits1
+                       [] -> CryptTools.englishTest2
                        : y ys
                        -> case y of wild1 { GHC.Word.W8# x# ->
                           case byteshift of wild2 { GHC.Types.I# x ->
@@ -335,295 +753,317 @@ d796afcc43e231669c78463c43a31a15
                         x2
                         0
                         wlist } }) -}
-3fcc65fe114e05abd6cc47f694c79313
+37ffe5bb35ea91ee47995935bb2c5ea2
   joinBits_n :: [GHC.Word.Word8] -> GHC.Integer.Type.Integer
   {- Arity: 1, HasNoCafRefs, Strictness: <L,A>,
      Unfolding: InlineRule (1, True, True)
-                (\ ds :: [GHC.Word.Word8] -> CryptTools.joinBits1) -}
-fe855771d01ca26ffb75693b1fd2472f
-  letterFreqs :: [(GHC.Types.Char, GHC.Types.Double)]
-  {- Unfolding: (CryptTools.letterFreqs_go
-                   97
+                (\ ds :: [GHC.Word.Word8] -> CryptTools.englishTest2) -}
+6a2fad0d3c9b7edaa58c87d267e56d32
+  letterFreqs :: [(GHC.Word.Word8, GHC.Types.Double)]
+  {- Unfolding: (GHC.List.zip
+                   @ GHC.Word.Word8
+                   @ GHC.Types.Double
+                   CryptTools.englishTest1
                    CryptTools.letterPerc) -}
-c6b4cb355f7f738b50eba830648f55cc
-  letterFreqs_go ::
-    GHC.Prim.Int#
-    -> [GHC.Types.Double] -> [(GHC.Types.Char, GHC.Types.Double)]
-  {- Arity: 2, HasNoCafRefs, Strictness: <L,U><L,1*U> -}
-6cd19ff503a9376799bac1d90850554c
+fcbb644b8203c7679e73d974b2b93393
   letterPerc :: [GHC.Types.Double]
   {- Unfolding: (GHC.Base.map
                    @ GHC.Types.Double
                    @ GHC.Types.Double
                    CryptTools.letterPerc53
                    CryptTools.letterPerc1) -}
-30de1a9e0a31b858c4b2c42d0e135554
+aac1c7f2d6fd02658bb2127f709c0abd
   letterPerc1 :: [GHC.Types.Double]
   {- HasNoCafRefs,
      Unfolding: (GHC.Types.:
                    @ GHC.Types.Double
                    CryptTools.letterPerc52
                    CryptTools.letterPerc2) -}
-abc25eb6ba0ace48a83a1f3ab508e9cc
+bd4bc80b4b60088c2e725ae1e67c1031
   letterPerc10 :: [GHC.Types.Double]
   {- HasNoCafRefs,
      Unfolding: (GHC.Types.:
                    @ GHC.Types.Double
                    CryptTools.letterPerc43
                    CryptTools.letterPerc11) -}
-92ea1d8fc611a7a99ae540b5b6053891
+cf3dd61d01eeb4109cfdd3ab55d5ad8c
   letterPerc11 :: [GHC.Types.Double]
   {- HasNoCafRefs,
      Unfolding: (GHC.Types.:
                    @ GHC.Types.Double
                    CryptTools.letterPerc42
                    CryptTools.letterPerc12) -}
-2ba5fac92ebca4cf859b6f779d1dcdc5
+d684f74913440a2e3fbe4c78c1365ce2
   letterPerc12 :: [GHC.Types.Double]
   {- HasNoCafRefs,
      Unfolding: (GHC.Types.:
                    @ GHC.Types.Double
                    CryptTools.letterPerc41
                    CryptTools.letterPerc13) -}
-5990fb3347e8e0b8699ce37cd3b53ac9
+06240f62fde0a2a16fc0c326cc29fa2f
   letterPerc13 :: [GHC.Types.Double]
   {- HasNoCafRefs,
      Unfolding: (GHC.Types.:
                    @ GHC.Types.Double
                    CryptTools.letterPerc40
                    CryptTools.letterPerc14) -}
-c160da3d551378b77cdc3cd59c77e806
+ba21a8050b5ebc7d669c40d2895d79c0
   letterPerc14 :: [GHC.Types.Double]
   {- HasNoCafRefs,
      Unfolding: (GHC.Types.:
                    @ GHC.Types.Double
                    CryptTools.letterPerc39
                    CryptTools.letterPerc15) -}
-6c6711a1af03e3303945abe9af8d5d48
+863694985276016c35f18f65a98bc44d
   letterPerc15 :: [GHC.Types.Double]
   {- HasNoCafRefs,
      Unfolding: (GHC.Types.:
                    @ GHC.Types.Double
                    CryptTools.letterPerc38
                    CryptTools.letterPerc16) -}
-d3eca02e4803f62fde2757fbc2736771
+8e2e439bb02a8cb228a8cf60d4ecab49
   letterPerc16 :: [GHC.Types.Double]
   {- HasNoCafRefs,
      Unfolding: (GHC.Types.:
                    @ GHC.Types.Double
                    CryptTools.letterPerc37
                    CryptTools.letterPerc17) -}
-869ac9e7b06442b13f08deae1c1cd82e
+2014d1617f32ff0f3e5a61c1964a5508
   letterPerc17 :: [GHC.Types.Double]
   {- HasNoCafRefs,
      Unfolding: (GHC.Types.:
                    @ GHC.Types.Double
                    CryptTools.letterPerc36
                    CryptTools.letterPerc18) -}
-aa4a8adfb02dfc0d0da9c85c83e058fb
+ccfcf348af2c2e4f88919a1130f9b49d
   letterPerc18 :: [GHC.Types.Double]
   {- HasNoCafRefs,
      Unfolding: (GHC.Types.:
                    @ GHC.Types.Double
                    CryptTools.letterPerc35
                    CryptTools.letterPerc19) -}
-f22c62c728aa25085e651f062b0d5b51
+88c6a1adf73d0d28249d7376d728a9c0
   letterPerc19 :: [GHC.Types.Double]
   {- HasNoCafRefs,
      Unfolding: (GHC.Types.:
                    @ GHC.Types.Double
                    CryptTools.letterPerc34
                    CryptTools.letterPerc20) -}
-9fbd55f3f4ee703da828d5cd951e5d8d
+85be0a34a9b51f28d9ab65bbf8d69425
   letterPerc2 :: [GHC.Types.Double]
   {- HasNoCafRefs,
      Unfolding: (GHC.Types.:
                    @ GHC.Types.Double
                    CryptTools.letterPerc51
                    CryptTools.letterPerc3) -}
-7c5e744ae1741106aa1abcfd05915522
+4cbb191118e9bf84e86ede6c85a11c77
   letterPerc20 :: [GHC.Types.Double]
   {- HasNoCafRefs,
      Unfolding: (GHC.Types.:
                    @ GHC.Types.Double
                    CryptTools.letterPerc33
                    CryptTools.letterPerc21) -}
-98e49ffc9d800f9296ae2769b903000d
+81484c571dde788ccbcf08c19081e911
   letterPerc21 :: [GHC.Types.Double]
   {- HasNoCafRefs,
      Unfolding: (GHC.Types.:
                    @ GHC.Types.Double
                    CryptTools.letterPerc32
                    CryptTools.letterPerc22) -}
-0968388e2cd7d305840515100dd01a9a
+19c40722235b408e9d3ed1c9a48746f4
   letterPerc22 :: [GHC.Types.Double]
   {- HasNoCafRefs,
      Unfolding: (GHC.Types.:
                    @ GHC.Types.Double
                    CryptTools.letterPerc31
                    CryptTools.letterPerc23) -}
-f202afe2c1a86c3eca2599509c7f9491
+342108959ccbd119bbcb3fb957333a13
   letterPerc23 :: [GHC.Types.Double]
   {- HasNoCafRefs,
      Unfolding: (GHC.Types.:
                    @ GHC.Types.Double
                    CryptTools.letterPerc30
                    CryptTools.letterPerc24) -}
-31a2e708cd57c0603162ac18ff6dffa0
+86b7905821bcf8bc33be51372838a083
   letterPerc24 :: [GHC.Types.Double]
   {- HasNoCafRefs,
      Unfolding: (GHC.Types.:
                    @ GHC.Types.Double
                    CryptTools.letterPerc29
                    CryptTools.letterPerc25) -}
-d20c27a5cfe41d73947787709711f4f8
+a82ba5158d1afc3609aca7af2debe2e4
   letterPerc25 :: [GHC.Types.Double]
   {- HasNoCafRefs,
      Unfolding: (GHC.Types.:
                    @ GHC.Types.Double
                    CryptTools.letterPerc28
                    CryptTools.letterPerc26) -}
-b6e26fcba539b76c75465c9bc3b0d5d9
+607adef6040f918825553d75cff106f7
   letterPerc26 :: [GHC.Types.Double]
   {- HasNoCafRefs,
      Unfolding: (GHC.Types.:
                    @ GHC.Types.Double
                    CryptTools.letterPerc27
                    (GHC.Types.[] @ GHC.Types.Double)) -}
-3818ccd9132552fb0dd14f6e65fd0074
+517701e57f1aee60ce5ffcfbf18ffbf0
   letterPerc27 :: GHC.Types.Double
   {- HasNoCafRefs, Unfolding: (GHC.Types.D# 7.4e-2) -}
-1b4d30d77eecbd81a747f75caecff726
+a55b4632a4c06ef3aa6c0c0784403dd4
   letterPerc28 :: GHC.Types.Double
   {- HasNoCafRefs, Unfolding: (GHC.Types.D# 1.974) -}
-422e74d516c9bcab323df38a1842b2cf
+2121d6431ac6cda582e9ae3f1ae92f45
   letterPerc29 :: GHC.Types.Double
   {- HasNoCafRefs, Unfolding: (GHC.Types.D# 0.15) -}
-55fb2029ec7c2e1c24f2483d61b1581f
+65f34ebee83c038a90cf8c7b89db5ef3
   letterPerc3 :: [GHC.Types.Double]
   {- HasNoCafRefs,
      Unfolding: (GHC.Types.:
                    @ GHC.Types.Double
                    CryptTools.letterPerc50
                    CryptTools.letterPerc4) -}
-475dcea2e1fb06771515bdfe6f8e3d54
+71e63667154ed0321664a20465064a0f
   letterPerc30 :: GHC.Types.Double
   {- HasNoCafRefs, Unfolding: (GHC.Types.D# 2.361) -}
-cc4dae33003962860436dd1aba6feede
+dc3a06f8d8ffb537d486ac035f6d7fe6
   letterPerc31 :: GHC.Types.Double
   {- HasNoCafRefs, Unfolding: (GHC.Types.D# 0.978) -}
-8b09361d5a40d47a75524f3911484e09
+2b3357414a1079a816112c6313d29c37
   letterPerc32 :: GHC.Types.Double
   {- HasNoCafRefs, Unfolding: (GHC.Types.D# 2.758) -}
-5c1f6249e88970ee84eac62a7a6340dd
+bf45675847869344d47e42bc6519c182
   letterPerc33 :: GHC.Types.Double
   {- HasNoCafRefs, Unfolding: (GHC.Types.D# 9.056) -}
-1f1a21d98d6c913fad0b066bc7202d03
+698f718c10c1253c7fe1166ec85bbe4e
   letterPerc34 :: GHC.Types.Double
   {- HasNoCafRefs, Unfolding: (GHC.Types.D# 6.327) -}
-56617cf2ada62c4ac26fb4a7cf425900
+5089fd91763858d12bd2f55958453d70
   letterPerc35 :: GHC.Types.Double
   {- HasNoCafRefs, Unfolding: (GHC.Types.D# 5.987) -}
-1198a550bc34e7cba537cf85252b46de
+133a7997a47e4b134ab0c6e3e8ba88e6
   letterPerc36 :: GHC.Types.Double
   {- HasNoCafRefs, Unfolding: (GHC.Types.D# 9.5e-2) -}
-5ccf4c0e56ae6ab76cec7828e2746166
+ef9c8c765f51c5ab4523a7866d53f03b
   letterPerc37 :: GHC.Types.Double
   {- HasNoCafRefs, Unfolding: (GHC.Types.D# 1.929) -}
-12494d4b6e7c2c50ee0872a01fb144b5
+95d9a5a4c413228e5f49bf365d799e80
   letterPerc38 :: GHC.Types.Double
   {- HasNoCafRefs, Unfolding: (GHC.Types.D# 7.507) -}
-c37628d3a44fe49c8cf4d4f1bcaf7dfd
+406a7785e14ef3ff7dfc045319a67220
   letterPerc39 :: GHC.Types.Double
   {- HasNoCafRefs, Unfolding: (GHC.Types.D# 6.749) -}
-99e3a9c5cd7d08af3a5efffad19d4e69
+3150f0dd709f2284d0156be8e703463e
   letterPerc4 :: [GHC.Types.Double]
   {- HasNoCafRefs,
      Unfolding: (GHC.Types.:
                    @ GHC.Types.Double
                    CryptTools.letterPerc49
                    CryptTools.letterPerc5) -}
-28a8701e086185e728b0dbffc8913d31
+a1ca6031ae112b0950990daebfc28bbd
   letterPerc40 :: GHC.Types.Double
   {- HasNoCafRefs, Unfolding: (GHC.Types.D# 2.406) -}
-be90cbcf4abde076a9839eded596c5a6
+042419fa6bb27247f9718e31dc32bc7c
   letterPerc41 :: GHC.Types.Double
   {- HasNoCafRefs, Unfolding: (GHC.Types.D# 4.025) -}
-bafcd04caf302d3135a79e8a95023624
+ad2e778369152323eed987796a23b846
   letterPerc42 :: GHC.Types.Double
   {- HasNoCafRefs, Unfolding: (GHC.Types.D# 0.772) -}
-588446074a1fca9685ca27fda8affe13
+59253b2db51a439d0e6fb3d77d04353f
   letterPerc43 :: GHC.Types.Double
   {- HasNoCafRefs, Unfolding: (GHC.Types.D# 0.153) -}
-e1d4bcea153430faa3f813a19932c52f
+992b6ad1d688b91cdc989f8861d11cfa
   letterPerc44 :: GHC.Types.Double
   {- HasNoCafRefs, Unfolding: (GHC.Types.D# 6.966) -}
-3d4882c5a2de06cdc3498e5c25448a09
+350804ac846bdbc5a85ab7ee690c3725
   letterPerc45 :: GHC.Types.Double
   {- HasNoCafRefs, Unfolding: (GHC.Types.D# 6.094) -}
-b6def2a77f2a9854d223b25ee69086e6
+c6cbf9b67cbb1b17c88bdf3f1350f9ed
   letterPerc46 :: GHC.Types.Double
   {- HasNoCafRefs, Unfolding: (GHC.Types.D# 2.015) -}
-5d3947a630c058b4279373f307bb0789
+c1f00147da1b1584800f387faa31fbca
   letterPerc47 :: GHC.Types.Double
   {- HasNoCafRefs, Unfolding: (GHC.Types.D# 2.228) -}
-d8aeaa3948523d0299189ee81748c6bd
+e7b09e24c2e5a79dd9bd63a7472526d2
   letterPerc48 :: GHC.Types.Double
   {- HasNoCafRefs, Unfolding: (GHC.Types.D# 12.702) -}
-073e2247bf8445c753e25639eef062a9
+f17f5311f3f1376dd0ea88fe4ca55672
   letterPerc49 :: GHC.Types.Double
   {- HasNoCafRefs, Unfolding: (GHC.Types.D# 4.253) -}
-d759449de45fa858a3e5d861bc760d9e
+269daf33aa276bee20bf9697d1a24e60
   letterPerc5 :: [GHC.Types.Double]
   {- HasNoCafRefs,
      Unfolding: (GHC.Types.:
                    @ GHC.Types.Double
                    CryptTools.letterPerc48
                    CryptTools.letterPerc6) -}
-4a92a4ecbe837e1616bb200f5e106b79
+4dc50855852001d4247eee32a129bf25
   letterPerc50 :: GHC.Types.Double
   {- HasNoCafRefs, Unfolding: (GHC.Types.D# 2.782) -}
-db6da217e8b8ac16e77ce13d6f3d7519
+89a5aa976ddca088f66fe81c3b130da8
   letterPerc51 :: GHC.Types.Double
   {- HasNoCafRefs, Unfolding: (GHC.Types.D# 1.492) -}
-a87810d071c7fa7b78873399105bb34a
+c9e5a7b5bb6912f2f694d69081155912
   letterPerc52 :: GHC.Types.Double
   {- HasNoCafRefs, Unfolding: (GHC.Types.D# 8.167) -}
-bfa5bf7bcd29e1e1eb391574b0e3da0e
+efe2075b90f2d32b914241a8754ca60b
   letterPerc53 :: GHC.Types.Double -> GHC.Types.Double
   {- Arity: 1, HasNoCafRefs,
      Unfolding: (\ ds :: GHC.Types.Double ->
                  case ds of wild { GHC.Types.D# x ->
                  GHC.Types.D# (GHC.Prim./## x 100.0) }) -}
-9b4a5dd60911428751b02e3f81a379be
+dd814073d785cd63cb51c9082c86c01a
   letterPerc6 :: [GHC.Types.Double]
   {- HasNoCafRefs,
      Unfolding: (GHC.Types.:
                    @ GHC.Types.Double
                    CryptTools.letterPerc47
                    CryptTools.letterPerc7) -}
-0d8764ecef451ef77f273d8ee0b1cb94
+27e7478112910b65b8ed1aef9eb9703e
   letterPerc7 :: [GHC.Types.Double]
   {- HasNoCafRefs,
      Unfolding: (GHC.Types.:
                    @ GHC.Types.Double
                    CryptTools.letterPerc46
                    CryptTools.letterPerc8) -}
-618599ccd45ad79f7b28ecbd93153671
+9d92538d235dac451197afc2b6da9336
   letterPerc8 :: [GHC.Types.Double]
   {- HasNoCafRefs,
      Unfolding: (GHC.Types.:
                    @ GHC.Types.Double
                    CryptTools.letterPerc45
                    CryptTools.letterPerc9) -}
-90702eae711d352239e1d2994b1c9c58
+0163a0a7aee0f065775ea8bcf68519dc
   letterPerc9 :: [GHC.Types.Double]
   {- HasNoCafRefs,
      Unfolding: (GHC.Types.:
                    @ GHC.Types.Double
                    CryptTools.letterPerc44
                    CryptTools.letterPerc10) -}
-bda1bc6be8730730136a100e7f587327
+73405383660e9de22e4b172a8d606af2
+  mSplitAt ::
+    GHC.Types.Int
+    -> Data.ByteString.Internal.ByteString
+    -> GHC.Base.Maybe
+         (Data.ByteString.Internal.ByteString,
+          Data.ByteString.Internal.ByteString)
+  {- Arity: 2, Strictness: <L,1*U(U)><S,1*U(U,U,U,U)>,
+     Inline: INLINE[0],
+     Unfolding: InlineRule (2, True, False)
+                (\ w :: GHC.Types.Int w1 :: Data.ByteString.Internal.ByteString ->
+                 case w1 of ww { Data.ByteString.Internal.PS ww1 ww2 ww3 ww4 ->
+                 CryptTools.$wmSplitAt w ww1 ww2 ww3 ww4 }) -}
+a34209c11f66c9d75aa518a3840dbedb
+  mSplitAt1 :: Data.ByteString.Internal.ByteString
+  {- Unfolding: (Data.ByteString.Internal.unsafePackLenChars
+                   CryptTools.mSplitAt2
+                   (GHC.Types.[] @ GHC.Types.Char)) -}
+f6649b6710742253988b2e4e6af578cb
+  mSplitAt2 :: GHC.Types.Int
+  {- Unfolding: (case GHC.List.$wlenAcc
+                        @ GHC.Types.Char
+                        (GHC.Types.[] @ GHC.Types.Char)
+                        0 of ww2 { DEFAULT ->
+                 GHC.Types.I# ww2 }) -}
+df27e937596f5e1d3663bf76c70431f9
   padd :: a -> GHC.Types.Int -> [a] -> [a]
   {- Arity: 3, Strictness: <L,U><S(S),1*U(U)><L,U>,
      Inline: INLINE[0],
@@ -631,10 +1071,10 @@ bda1bc6be8730730136a100e7f587327
                 (\ @ a3 w :: a3 w1 :: GHC.Types.Int w2 :: [a3] ->
                  case w1 of ww { GHC.Types.I# ww1 ->
                  CryptTools.$wpadd @ a3 w ww1 w2 }) -}
-1cee73538c47df25c88b02dad24d9b10
+b571f0659003f8e8e3148e4d12ef814d
   readB1 :: GHC.Integer.Type.Integer
   {- Strictness: b -}
-f27af5882304a4e9c6b5340985165948
+c62b0d07d729bc1bdb57d7df81d9cc29
   readB16 :: CryptTools.HexString -> GHC.Integer.Type.Integer
   {- Arity: 1, Strictness: <L,1*U(U,U,U,U)>,
      Unfolding: (\ s :: CryptTools.HexString ->
@@ -656,10 +1096,10 @@ f27af5882304a4e9c6b5340985165948
                    : x ds
                    -> case ds of wild1 {
                         [] -> x : ipv ipv1 -> CryptTools.readB1 } }) -}
-c530c87e61111488b1a274b37a88a0a8
+c26142eadac64088b966bd4790bc69ce
   readB2 :: GHC.Integer.Type.Integer
   {- Strictness: b -}
-c7633ec186c0772fa66669fe48cc1906
+89c3e936ea7cb2cfceb9773c26182913
   readB3 :: Text.ParserCombinators.ReadP.P GHC.Integer.Type.Integer
   {- Unfolding: ((GHC.Read.$fReadInteger3
                     GHC.Read.$fReadInteger_$sconvertInt
@@ -669,10 +1109,10 @@ c7633ec186c0772fa66669fe48cc1906
                       <GHC.Integer.Type.Integer>_R)
                    @ GHC.Integer.Type.Integer
                    (Text.Read.readEither5 @ GHC.Integer.Type.Integer)) -}
-76aa7ca571e7ac594fd7e5942e47cc62
+fba8d5c79460a588418790ddc15aba6f
   showB1 :: GHC.Types.Int
   {- HasNoCafRefs, Strictness: m, Unfolding: (GHC.Types.I# 6) -}
-b2db6620c086746be30ea90c5497df3d
+64c376be9f9fbcfcb292e82a14b16ea5
   showB16 :: GHC.Integer.Type.Integer -> CryptTools.HexString
   {- Arity: 1, Strictness: <L,U>,
      Unfolding: (\ i :: GHC.Integer.Type.Integer ->
@@ -691,7 +1131,7 @@ b2db6620c086746be30ea90c5497df3d
                    (case GHC.List.$wlenAcc @ GHC.Types.Char cs 0 of ww2 { DEFAULT ->
                     GHC.Types.I# ww2 })
                    cs) -}
-f27e8c16b344ec97d5d830fafb31aa28
+4e0e1ea54a98e3faeb443d1fc11bf3b9
   showB2 :: GHC.Integer.Type.Integer -> GHC.Types.Char
   {- Arity: 1, Strictness: <L,1*U>,
      Unfolding: InlineRule (1, True, False)
@@ -704,7 +1144,7 @@ f27e8c16b344ec97d5d830fafb31aa28
                         CryptTools.b64ListMap of wild {
                    GHC.Base.Nothing -> Data.Maybe.fromJust1 @ GHC.Types.Char
                    GHC.Base.Just x1 -> x1 }) -}
-a25bab07bd9ee80c45ae6be5f1660382
+94b6151f7a026392f9df5550e36e72da
   showB64 :: GHC.Integer.Type.Integer -> CryptTools.B64String
   {- Arity: 1, Strictness: <L,U>,
      Unfolding: (\ n2 :: GHC.Integer.Type.Integer ->
@@ -723,7 +1163,7 @@ a25bab07bd9ee80c45ae6be5f1660382
                    (case GHC.List.$wlenAcc @ GHC.Types.Char cs 0 of ww2 { DEFAULT ->
                     GHC.Types.I# ww2 })
                    cs) -}
-6e9147fd40b49b837ef08be230909281
+8a9e5826346bd6641ec267ec1bf8490f
   showB64String :: [GHC.Word.Word8] -> CryptTools.B64String
   {- Arity: 1, Strictness: <S,U>,
      Unfolding: (\ s :: [GHC.Word.Word8] ->
@@ -778,7 +1218,7 @@ a25bab07bd9ee80c45ae6be5f1660382
                             GHC.Types.False -> n2
                             GHC.Types.True
                             -> letrec {
-                                 $wgo1 :: [GHC.Word.Word8] -> GHC.Prim.Int# -> [GHC.Word.Word8]
+                                 $wgo2 :: [GHC.Word.Word8] -> GHC.Prim.Int# -> [GHC.Word.Word8]
                                    {- Arity: 2, Strictness: <S,1*U><L,1*U>, Inline: [0] -}
                                  = \ w :: [GHC.Word.Word8] ww8 :: GHC.Prim.Int# ->
                                    case w of wild1 {
@@ -789,10 +1229,10 @@ a25bab07bd9ee80c45ae6be5f1660382
                                           -> GHC.Types.:
                                                @ GHC.Word.Word8
                                                y1
-                                               ($wgo1 ys (GHC.Prim.-# ds1 1))
+                                               ($wgo2 ys (GHC.Prim.-# ds1 1))
                                           1 -> GHC.Types.: @ GHC.Word.Word8 y1 n2 } }
                                } in
-                               $wgo1 t y } } }
+                               $wgo2 t y } } }
                       } in
                       Data.ByteString.Internal.unsafePackLenBytes
                         (case GHC.List.$wlenAcc @ GHC.Word.Word8 ws 0 of ww3 { DEFAULT ->
@@ -803,15 +1243,15 @@ a25bab07bd9ee80c45ae6be5f1660382
                         (CryptTools.joinBits_$sjoinBits
                            CryptTools.showB64String1
                            s) } }) -}
-233eddd8a1d7796dc73709739c407ed6
+81da1f062d019d8300584fee455624ac
   showB64String1 :: GHC.Types.Int
   {- HasNoCafRefs, Strictness: m, Unfolding: (GHC.Types.I# 8) -}
-62e3ef7232bfa6726d7c98fef90fdd31
+965e46ccbf013209c02ef6d358096f61
   showB64_splitBits' ::
     GHC.Types.Int
     -> GHC.Integer.Type.Integer -> [GHC.Integer.Type.Integer]
   {- Arity: 2, Strictness: <L,U(U)><S,U> -}
-24a6601e69e6f9ec543369f45721a80c
+4070cac9770d5c4a30f37ce130032e7d
   showBin ::
     (GHC.Real.Integral a, GHC.Show.Show a) => a -> GHC.Base.String
   {- Arity: 3,
@@ -831,62 +1271,10 @@ a25bab07bd9ee80c45ae6be5f1660382
                    GHC.Show.intToDigit
                    eta
                    (GHC.Types.[] @ GHC.Types.Char)) -}
-65d0db798e07a99e733aac2c8e82513e
+8a40f9893e7abaaa995d4c916c39526d
   showBin1 :: GHC.Integer.Type.Integer
   {- HasNoCafRefs, Unfolding: (__integer 2) -}
-e0dd5ba7113cd62291bf3e9d45e1fd5e
-  similarity :: GHC.Real.Integral a => [a] -> [a] -> a
-  {- Arity: 3, HasNoCafRefs,
-     Strictness: <L,U(1*U,A,A,A,A,A,A,A,C(U))><S,1*U><L,U>,
-     Unfolding: (\ @ a3
-                   $dIntegral :: GHC.Real.Integral a3
-                   eta :: [a3]
-                   eta1 :: [a3] ->
-                 let {
-                   $dReal :: GHC.Real.Real a3 = GHC.Real.$p1Integral @ a3 $dIntegral
-                 } in
-                 let {
-                   $dNum :: GHC.Num.Num a3 = GHC.Real.$p1Real @ a3 $dReal
-                 } in
-                 let {
-                   k :: a3 -> a3 -> a3 = GHC.Num.+ @ a3 $dNum
-                 } in
-                 let {
-                   a4 :: a3 -> a3 -> a3 = GHC.Num.* @ a3 $dNum
-                 } in
-                 let {
-                   ds :: a3
-                   = let {
-                       k1 :: a3 -> a3 -> a3 = GHC.Num.+ @ a3 $dNum
-                     } in
-                     letrec {
-                       go1 :: [a3] -> a3 -> a3 {- Arity: 2, Strictness: <S,1*U><L,U> -}
-                       = \ ds1 :: [a3] eta2 :: a3 ->
-                         case ds1 of wild { [] -> eta2 : y ys -> go1 ys (k1 eta2 y) }
-                     } in
-                     go1 eta1 (GHC.Num.fromInteger @ a3 $dNum CryptTools.joinBits1)
-                 } in
-                 letrec {
-                   go1 :: [a3] -> [a3] -> a3 -> a3
-                     {- Arity: 3, Strictness: <S,1*U><L,1*U><L,U> -}
-                   = \ ds1 :: [a3] eta2 :: [a3] eta3 :: a3 ->
-                     case ds1 of wild {
-                       [] -> eta3
-                       : y ys
-                       -> case eta2 of wild1 {
-                            [] -> eta3
-                            : y1 ys1
-                            -> go1 ys ys1 (k eta3 (a4 (GHC.Num.* @ a3 $dNum y ds) y1)) } }
-                 } in
-                 go1
-                   eta
-                   (GHC.Base.map
-                      @ a3
-                      @ a3
-                      (GHC.Real.fromIntegral @ a3 @ a3 $dIntegral $dNum)
-                      eta1)
-                   (GHC.Num.fromInteger @ a3 $dNum CryptTools.joinBits1)) -}
-7ca3425f7636e325535f119a2485e9f3
+5e6139c5b518e2b591cc5a30e36edf93
   splitBits ::
     (GHC.Num.Num a, Data.Bits.Bits a) => GHC.Types.Int -> a -> [a]
   {- Arity: 4,
@@ -897,7 +1285,7 @@ e0dd5ba7113cd62291bf3e9d45e1fd5e
                    bs :: GHC.Types.Int
                    number :: a3 ->
                  let {
-                   lvl3 :: a3 = GHC.Num.fromInteger @ a3 $dNum CryptTools.joinBits1
+                   lvl5 :: a3 = GHC.Num.fromInteger @ a3 $dNum CryptTools.englishTest2
                  } in
                  let {
                    $dEq :: GHC.Classes.Eq a3 = Data.Bits.$p1Bits @ a3 $dBits
@@ -906,7 +1294,7 @@ e0dd5ba7113cd62291bf3e9d45e1fd5e
                    splitBits' :: GHC.Types.Int -> a3 -> [a3]
                      {- Arity: 2, Strictness: <L,U(U)><L,U> -}
                    = \ ds :: GHC.Types.Int ds1 :: a3 ->
-                     case GHC.Classes.== @ a3 $dEq ds1 lvl3 of wild {
+                     case GHC.Classes.== @ a3 $dEq ds1 lvl5 of wild {
                        GHC.Types.False
                        -> GHC.Types.:
                             @ a3
@@ -926,7 +1314,7 @@ e0dd5ba7113cd62291bf3e9d45e1fd5e
                                           -> GHC.Integer.Type.minusInteger
                                                (GHC.Real.$wf CryptTools.showBin1 wild3)
                                                CryptTools.splitBits1
-                                          0 -> CryptTools.joinBits1 }
+                                          0 -> CryptTools.englishTest2 }
                                      GHC.Types.True -> GHC.Real.^1 } }))
                                ds1)
                             (splitBits' ds (Data.Bits.shiftR @ a3 $dBits ds1 ds))
@@ -936,10 +1324,77 @@ e0dd5ba7113cd62291bf3e9d45e1fd5e
                    @ a3
                    (splitBits' bs number)
                    (GHC.Types.[] @ a3)) -}
-a28a26398079ddde04d02fe912a51304
+3f1f6d4e3c87e1d1fa857b07eb1e0b4a
   splitBits1 :: GHC.Integer.Type.Integer
   {- HasNoCafRefs, Unfolding: (__integer 1) -}
-e550ccb7293f23e21137a468a8e5dd10
+271e59d9bc40e36d4ab8d97862860da5
+  stringToHex ::
+    Data.ByteString.Internal.ByteString -> CryptTools.HexString
+  {- Arity: 1, Strictness: <S,1*U(U,U,U,U)>, Inline: INLINE[0],
+     Unfolding: InlineRule (1, True, False)
+                (\ w :: Data.ByteString.Internal.ByteString ->
+                 case w of ww { Data.ByteString.Internal.PS ww1 ww2 ww3 ww4 ->
+                 CryptTools.$wstringToHex ww1 ww2 ww3 ww4 }) -}
+e1f9efedcd5b2e70484c5fa7b30b04bc
+  xorB16 ::
+    CryptTools.HexString
+    -> CryptTools.HexString -> CryptTools.HexString
+  {- Arity: 2, Strictness: <L,1*U(U,U,U,U)><L,1*U(U,U,U,U)>,
+     Unfolding: (\ h1 :: CryptTools.HexString
+                   h2 :: CryptTools.HexString ->
+                 let {
+                   cs :: [GHC.Types.Char]
+                   = Numeric.showIntAtBase
+                       @ GHC.Integer.Type.Integer
+                       GHC.Real.$fIntegralInteger
+                       GHC.Show.$fShowInteger
+                       Numeric.showHex1
+                       GHC.Show.intToDigit
+                       (case Text.Read.readEither6
+                               @ GHC.Integer.Type.Integer
+                               (Text.ParserCombinators.ReadP.run
+                                  @ GHC.Integer.Type.Integer
+                                  CryptTools.readB3
+                                  (GHC.CString.unpackAppendCString#
+                                     "0x"#
+                                     (case h1 of ww { Data.ByteString.Internal.PS ww1 ww2 ww3 ww4 ->
+                                      Data.ByteString.Internal.$wunpackAppendCharsLazy
+                                        ww1
+                                        ww2
+                                        ww3
+                                        ww4
+                                        (GHC.Types.[] @ GHC.Types.Char) }))) of wild {
+                          [] -> CryptTools.readB2
+                          : x ds
+                          -> case ds of wild1 {
+                               []
+                               -> case Text.Read.readEither6
+                                         @ GHC.Integer.Type.Integer
+                                         (Text.ParserCombinators.ReadP.run
+                                            @ GHC.Integer.Type.Integer
+                                            CryptTools.readB3
+                                            (GHC.CString.unpackAppendCString#
+                                               "0x"#
+                                               (case h2 of ww { Data.ByteString.Internal.PS ww1 ww2 ww3 ww4 ->
+                                                Data.ByteString.Internal.$wunpackAppendCharsLazy
+                                                  ww1
+                                                  ww2
+                                                  ww3
+                                                  ww4
+                                                  (GHC.Types.[] @ GHC.Types.Char) }))) of wild2 {
+                                    [] -> CryptTools.readB2
+                                    : x1 ds1
+                                    -> case ds1 of wild3 {
+                                         [] -> GHC.Integer.Type.xorInteger x x1
+                                         : ipv ipv1 -> CryptTools.readB1 } }
+                               : ipv ipv1 -> CryptTools.readB1 } })
+                       (GHC.Types.[] @ GHC.Types.Char)
+                 } in
+                 Data.ByteString.Internal.unsafePackLenChars
+                   (case GHC.List.$wlenAcc @ GHC.Types.Char cs 0 of ww2 { DEFAULT ->
+                    GHC.Types.I# ww2 })
+                   cs) -}
+41542e2f8160b691ddbe372c1b2e4718
   xorChar :: Data.Bits.Bits a => [a] -> a -> [a]
   {- Arity: 3, HasNoCafRefs,
      Strictness: <L,1*U(A,A,A,1*C1(C(U)),A,A,A,A,A,A,A,A,A,A,A,A,A,A,A,A,A,A,A)><S,1*U><L,U>,
@@ -954,6 +1409,16 @@ e550ccb7293f23e21137a468a8e5dd10
                       (GHC.Base.mapFB @ a3 @ b1 @ a3 c (Data.Bits.xor @ a3 $dBits bit))
                       n2
                       bitlist)) -}
+4a0f026614f8b8e77fb80449bf13b0f4
+  xorCharBS ::
+    Data.ByteString.Internal.ByteString
+    -> GHC.Word.Word8 -> Data.ByteString.Internal.ByteString
+  {- Arity: 2, Strictness: <S,1*U(U,U,U,U)><L,U(U)>,
+     Inline: INLINE[0],
+     Unfolding: InlineRule (2, True, False)
+                (\ w :: Data.ByteString.Internal.ByteString w1 :: GHC.Word.Word8 ->
+                 case w of ww { Data.ByteString.Internal.PS ww1 ww2 ww3 ww4 ->
+                 CryptTools.$wxorCharBS ww1 ww2 ww3 ww4 w1 }) -}
 "SPEC joinBits @ Word8 @ Integer" [ALWAYS] forall $dIntegral :: GHC.Real.Integral
                                                                   GHC.Word.Word8
                                                   $dNum :: GHC.Num.Num GHC.Integer.Type.Integer
