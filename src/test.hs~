@@ -1,0 +1,3 @@
+module Test where
+
+testVal = 8 :: Int

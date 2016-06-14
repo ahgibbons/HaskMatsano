@@ -38,12 +38,10 @@ chall10 = do
 
 ch12_key = getKey $ mkStdGen 1
 
-newEncrypter :: B64String -> Key -> PlainText -> Maybe CipherText
-newEncrypter b64string key fstring = do
-  bstring <- readB64 b64string
-  encAESECB key (BS.append fstring bstring)
+newEncrypter :: PlainText -> Key -> PlainText -> Maybe CipherText
+newEncrypter bstring key fstring = encAESECB key (BS.append fstring bstring)
   
-ch12Encrypter = newEncrypter ch12_intext ch12_key
+ch12Encrypter = newEncrypter (fromJust . readB64 $ ch12_intext) ch12_key
 
 
 ch12_intext = "Um9sbGluJyBpbiBteSA1LjAKV2l0aCBteSByYWctdG9wIGRvd24gc28gbXkgaGFpciBjYW4gYmxvdwpUaGUgZ2lybGllcyBvbiBzdGFuZGJ5IHdhdmluZyBqdXN0IHRvIHNheSBoaQpEaWQgeW91IHN0b3A/IE5vLCBJIGp1c3QgZHJvdmUgYnkK" :: B64String

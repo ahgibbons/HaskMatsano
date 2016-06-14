@@ -1,7 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 module CryptTools where
 
-import Prelude
+
 import Numeric
 import qualified Data.Map.Strict as Map
 import qualified Data.ByteString as BS
@@ -92,6 +92,11 @@ readB16 hs
 showB16 :: BS.ByteString -> HexString
 showB16 bs = BS.concat $ map (showB16Int . fromIntegral) $ BS.unpack bs
 
+chunksOfBS :: Int -> BS.ByteString -> [BS.ByteString]
+chunksOfBS n bs = unfoldr chunker bs
+  where chunker bs = if bs==BS.empty 
+                     then Nothing 
+                     else Just $ BS.splitAt n bs
 
 
 -- Join list of numbers into one number in bit chunks of byteshift
@@ -142,11 +147,11 @@ paddFront padding bsize list
       where lenMod = length list `mod` bsize
 
 pkcs7 :: Word8 -> BS.ByteString -> BS.ByteString
-pkcs7 blocksize bs = BS.append bs $ BS.pack $ replicate n (fromIntegral n) 
+pkcs7 blocksize bs = BS.append bs $ BS.replicate n (fromIntegral n) 
   where n = fromIntegral blocksize - (BS.length bs `mod` fromIntegral blocksize)
 
 paddBack :: Int -> Word8 -> BS.ByteString -> BS.ByteString
-paddBack blocksize w bs = BS.append bs $ BS.pack $ replicate n' w
+paddBack blocksize w bs = BS.append bs $ BS.replicate n' w
   where n = fromIntegral blocksize - (BS.length bs `mod` fromIntegral blocksize)
         n' = if n==blocksize then 0 else n
 
@@ -208,7 +213,7 @@ keyScore :: Int -> BS.ByteString -> Double
 keyScore n bs = average . map (\i -> fromIntegral i / fromIntegral n)
               . catMaybes $ zipWith hammingDist blocks (tail blocks)
   where
-    blocks = map BS.pack $ chunksOf n $ BS.unpack bs
+    blocks = chunksOfBS n bs
 
 average xs = (/) (sum xs) (fromIntegral . length $ xs)
 
@@ -249,7 +254,7 @@ encAESECB k ptext = do
 encAESECB' :: Key -> PlainText -> Maybe CipherText
 encAESECB' k ptext = do
   let ptext'     = pkcs7 (fromIntegral bsAES) ptext
-      ptextBlcks = map BS.pack $ chunksOf bsAES $ BS.unpack ptext'
+      ptextBlcks = chunksOfBS bsAES ptext'
   ctextBlcks <- mapM (encAESECBblock k) ptextBlcks
   return $ BS.concat ctextBlcks
 
@@ -262,7 +267,7 @@ encAESCBCblock k cblock pblock = do
 encAESCBC :: Key -> BS.ByteString -> PlainText -> Maybe CipherText
 encAESCBC k iv ptext = do
   let ptext'     = pkcs7 (fromIntegral bsAES) ptext
-      ptextBlcks = map BS.pack $ chunksOf bsAES $ BS.unpack ptext'
+      ptextBlcks = chunksOfBS bsAES ptext'
   ctextBlcks <- scanM (encAESCBCblock k) iv ptextBlcks
   return . BS.concat . tail $ ctextBlcks
 
@@ -283,7 +288,7 @@ decAESCBCblock  k c0 c1 = do
 decAESCBC :: Key -> BS.ByteString -> CipherText -> Maybe PlainText
 decAESCBC k iv ctext = do
   maybeBool isBlock ctext
-  let ctextBlcks = map BS.pack $ chunksOf bsAES $ BS.unpack ctext
+  let ctextBlcks = chunksOfBS bsAES ctext
   ptextBlcks <- zipWithM (decAESCBCblock k) (iv:ctextBlcks) ctextBlcks    
   return $ BS.concat ptextBlcks
 
@@ -326,8 +331,8 @@ encryptionOracle ptext g = do
       ebc <- getRandom :: (RandomGen g) => Rand g Bool
       fpaddC <- getRandomR (5,10)
       bpaddC <- getRandomR (5,10)
-      let fpadd = BS.pack $ replicate fpaddC 0
-          bpadd = BS.pack $ replicate bpaddC 0
+      let fpadd = BS.replicate fpaddC 0
+          bpadd = BS.replicate bpaddC 0
           ptext' = BS.concat [fpadd,ptext,bpadd]
       secretEncrypt ptext'
 
@@ -341,28 +346,37 @@ randIV = do
   stream <- getRandoms
   return . BS.pack . take bsAES $ stream
 
-
-
 {-}
-ecbDecrypter :: Int -> B64String -> Maybe [Word8]
-ecbDecrypter blocksize bstring = findByte . BS.pack . replicate 15 $ _A
-  where
-    ustring = fromJust . readB64 $ bstring
-    k       = getKey $ mkStdGen 0
-    findByte tstring = do
-      let allstrs = zip (map (BS.snoc tstring) [0..]) [0..]
-      enc <- BS.take blocksize <$> encAESECB k tstring
-      lookup enc allstrs
+ecbDecrypter :: Int -> (PlainText -> Maybe CipherText) -> [Word8]
+ecbDecrypter bs encrypter = 
+  where initBuffer = BS.replicate (bs-1) _A
 -}
 
-decrypter 
+rawDecrypter msglen bs encryptf n buffer known
+  | n == msglen = Just []
+  | otherwise     = do
+             w <- getByte
+             let buffer' = BS.tail buffer
+             (:) w <$> rawDecrypter msglen bs encryptf (n+1) buffer' (known++[w])
+   where 
+     getByte  = do
+       enc   <- encryptf buffer
+       tencs <- mapM (encryptf . BS.snoc known) [0..]
+       let enc' = BS.take bs  
+                . BS.drop ((n `div` bs)*bs) $ enc
+           tencs' = map (BS.take bs . BS.drop ((n `div` bs)*bs)) tencs
+           encsmap = zip tencs' [0..]
+       lookup enc' encsmap
 
-findByte k bsize ustring tstring = do
-  allencs <- mapM (encAESECB k . BS.snoc tstring) [0..]
+
+findByte :: Int -> (PlainText -> Maybe CipherText) -> PlainText -> Maybe Word8
+findByte bsize encrypter buffer = do
+  allencs <- mapM (encrypter . BS.snoc buffer) [0..]
   let allencs' = map (BS.take bsize) allencs
-      allstrs = zip allencs' [0..]
-  enc <- BS.take bsize <$> encAESECB k (BS.append tstring ustring)
-  lookup enc allstrs
+      encsmap  = zip allencs' [0..]
+  enc <- BS.take bsize <$> encrypter buffer
+  lookup enc encsmap
+  
 
 -- KeyGen
 
@@ -375,7 +389,7 @@ ttext = "Hello World, My name is Andrew!!" :: PlainText
 tkey = "YELLOW SUBMARINE" :: Key
 tblock = "Hello World! Bye" :: BS.ByteString
 
-tiv = BS.pack $ replicate (fromIntegral bsAES) 0
+tiv = BS.replicate (fromIntegral bsAES) 0
 
 longtext = "The debate has not changed, and it gets to the core foundation of modern health care. The SBM position is quite straightforward as a profession, health care providers owe it to the public to base their advice and interventions on the best available science and evidence. It is our duty to establish and enforce a standard of care that includes adequate due diligence in determining the safety and effectiveness of interventions. The standard of care also includes giving patients proper informed consent and ethical standards of professionalism. There is also a well-established standard for conducting research on humans." :: BS.ByteString
 

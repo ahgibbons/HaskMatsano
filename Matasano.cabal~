@@ -29,6 +29,7 @@ library
                      , cryptonite
                      , base64-bytestring
                      , random
+                     , MonadRandom
   default-language:    Haskell2010
 
 executable Matasano-exe
@@ -45,6 +46,7 @@ executable Matasano-exe
                      , cryptonite
                      , base64-bytestring
                      , random
+                     , MonadRandom
   default-language:    Haskell2010
 
 test-suite Matasano-test
