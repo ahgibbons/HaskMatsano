@@ -1,6 +1,11 @@
-module CryptoTools.Types where
+module Types where
+
+import qualified Data.ByteString as BS
 
 data CipherMode = ECB | CBC deriving (Show)
+
+type DynRec a b = [(a,b)]
+type KV = BS.ByteString
 
 type HexString = BS.ByteString
 type B64String = BS.ByteString

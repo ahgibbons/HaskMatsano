@@ -18,9 +18,10 @@ library
   exposed-modules:     Lib
                      , Set1
                      , Set2
+                     , BlockCipher
                      , CryptoTools
-                     , CryptoTools.Debug
-                     , CryptoTools.BlockCipher
+                     , Debug
+                     , Types
   build-depends:       base >= 4.7 && < 5
                      , containers
                      , bitwise
@@ -32,6 +33,9 @@ library
                      , base64-bytestring
                      , random
                      , MonadRandom
+                     , email-validate
+                     , parsec
+                     , stringsearch
   default-language:    Haskell2010
 
 executable Matasano-exe
@@ -49,6 +53,9 @@ executable Matasano-exe
                      , base64-bytestring
                      , random
                      , MonadRandom
+                     , email-validate
+                     , parsec
+                     , stringsearch
   default-language:    Haskell2010
 
 test-suite Matasano-test

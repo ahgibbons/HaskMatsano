@@ -7,6 +7,7 @@ import qualified Data.Map.Strict as Map
 import qualified Data.ByteString as BS
 import qualified Data.ByteString.Read as BSR
 import qualified Data.ByteString.Char8 as BSC
+import qualified Data.ByteString.Lazy as BL
 import Data.Word8
 import Data.List.Split (chunksOf)
 import qualified Data.Bits.Bitwise as Bit
@@ -17,9 +18,6 @@ import Data.Maybe
 import Data.Tuple (swap)
 import Data.Char (intToDigit)
 import Data.List.Split (chunksOf)
-import Crypto.Cipher.AES
-import Crypto.Cipher.Types
-import Crypto.Error
 import Control.Monad (mfilter, foldM, liftM, liftM2, zipWithM)
 import Control.Applicative ((<$>),(<*>))
 import qualified Data.ByteString.Base64 as B64
@@ -28,7 +26,6 @@ import Control.Monad.Random
 import Control.Monad.Random.Class (getRandom,getRandoms)
 
 import Types
-import BlockCipher
 
 ---- Formatting ----
 
@@ -143,6 +140,14 @@ pkcs7 :: Word8 -> BS.ByteString -> BS.ByteString
 pkcs7 blocksize bs = BS.append bs $ BS.replicate n (fromIntegral n) 
   where n = fromIntegral blocksize - (BS.length bs `mod` fromIntegral blocksize)
 
+unpkcs7 :: BS.ByteString -> Maybe BS.ByteString
+unpkcs7 bs = if (BS.all (==last') pad) 
+             then Just text
+             else Nothing
+    where len        = BS.length bs
+          last'      = BS.last bs
+          (text,pad) = BS.splitAt (len - (fromIntegral last')) bs
+
 paddBack :: Int -> Word8 -> BS.ByteString -> BS.ByteString
 paddBack blocksize w bs = BS.append bs $ BS.replicate n' w
   where n = fromIntegral blocksize - (BS.length bs `mod` fromIntegral blocksize)
@@ -216,70 +221,17 @@ takeEvery n xs = case drop (n-1) xs of
                    []     -> []
 
 
-
--- Block Ciphers
-
-cipherInitM k = case cipherInit k of
-                  CryptoFailed _      -> Nothing
-                  CryptoPassed cipher -> Just cipher
-
 maybeBool :: (a -> Bool) -> a -> Maybe a
 maybeBool f a = if (f a) then Just a else Nothing
 
-isBlock :: BS.ByteString -> Bool
-isBlock = (==) bsAES . BS.length
 
--- Encrypt AES 128 bit key size and block size
-
-
-encAESECBblock :: Key -> PBlock16 -> Maybe CBlock16
-encAESECBblock k pblock = do
-    maybeBool isBlock pblock
-    cipher <- cipherInitM k :: Maybe AES128
-    return $ ecbEncrypt cipher pblock
-
-encAESECB :: Key -> PlainText -> Maybe CipherText
-encAESECB k ptext = do
-  let ptext'   = pkcs7 (fromIntegral bsAES) ptext
-  cipher <- cipherInitM k :: Maybe AES128
-  return $ ecbEncrypt cipher ptext'
+t1 = "email=foo@bar.com&role=admin" :: BS.ByteString
+t2 = "email=foo@bar.com\\&role\\=admin&role=user" :: BS.ByteString
 
 
-encAESCBCblock :: Key -> CBlock16 -> PBlock16 -> Maybe CBlock16 
-encAESCBCblock k cblock pblock = do
-    maybeBool (all isBlock) [pblock,cblock] 
-    xored <- xorBS pblock cblock
-    encAESECBblock k xored
-
-encAESCBC :: Key -> BS.ByteString -> PlainText -> Maybe CipherText
-encAESCBC k iv ptext = do
-  let ptext'     = pkcs7 (fromIntegral bsAES) ptext
-      ptextBlcks = chunksOfBS bsAES ptext'
-  ctextBlcks <- scanM (encAESCBCblock k) iv ptextBlcks
-  return . BS.concat . tail $ ctextBlcks
-
-
-decAESECB :: Key -> CipherText -> Maybe PlainText
-decAESECB k ctext = do
-    maybeBool ((==0) . (`mod` bsAES)) (BS.length ctext)
-    cipher <- cipherInitM k :: Maybe AES128
-    return $ ecbDecrypt cipher ctext
-
-decAESCBCblock :: Key -> CBlock16 -> CBlock16 -> Maybe PBlock16
-decAESCBCblock  k c0 c1 = do
-  maybeBool (all isBlock) [c0,c1]
-  decrypted <- decAESECB k c1
-  xorBS decrypted c0 
-
-
-decAESCBC :: Key -> BS.ByteString -> CipherText -> Maybe PlainText
-decAESCBC k iv ctext = do
-  maybeBool isBlock ctext
-  let ctextBlcks = chunksOfBS bsAES ctext
-  ptextBlcks <- zipWithM (decAESCBCblock k) (iv:ctextBlcks) ctextBlcks    
-  return $ BS.concat ptextBlcks
-
-bsAES = 16 :: Int
+takeUntil :: (a -> Bool) -> [a] -> [a]
+takeUntil f (x:xs) | f x       = []
+                   | otherwise = x : takeUntil f xs
 
 scanM :: Monad m => (b -> a -> m b) -> b -> [a] -> m [b]
 scanM f y0 []     = return [y0]
@@ -288,89 +240,22 @@ scanM f y0 (x:xs) = do
       ys <- scanM f y xs
       return $ y0:ys
 
--- Encryption Oracle
 
-secretEncrypt :: (RandomGen g) => PlainText -> Rand g (Maybe CipherText)
-secretEncrypt ptext = do
-  ecb <- getRandom
-  k   <- randKey
-  iv  <- randIV
-  let ctext = case ecb of 
-                True  -> encAESECB k ptext
-                False -> encAESCBC k iv ptext
-  return ctext
-
-detectionOracle :: CipherText -> CipherMode
-detectionOracle ctext = if reps>1 then ECB else CBC
-  where
-    reps = fst . head . reverse
-         . sortBy (comparing fst) 
-         . frequency $ chunks
-    frequency list = map (\l -> (length l, head l)) (group (sort list))
-    chunks = chunksOf bsAES $ BS.unpack ctext
-
-encryptionOracle :: RandomGen g => PlainText -> g -> Maybe CipherMode
-encryptionOracle ptext g = do
-  ctext <- evalRand encryptOracleR g
-  return $ detectionOracle ctext
-  where
-    encryptOracleR = do
-      ebc <- getRandom :: (RandomGen g) => Rand g Bool
-      fpaddC <- getRandomR (5,10)
-      bpaddC <- getRandomR (5,10)
-      let fpadd = BS.replicate fpaddC 0
-          bpadd = BS.replicate bpaddC 0
-          ptext' = BS.concat [fpadd,ptext,bpadd]
-      secretEncrypt ptext'
-
-randKey :: RandomGen g => Rand g Key
-randKey = do
+randKey :: RandomGen g => Int -> Rand g Key
+randKey bs = do
   kstream <- getRandoms
-  return . BS.pack . take bsAES $ kstream
+  return . BS.pack . take bs $ kstream
 
-randIV :: RandomGen g => Rand g CBlock16
-randIV = do
+randIV :: RandomGen g => Int -> Rand g CBlock16
+randIV bs = do
   stream <- getRandoms
-  return . BS.pack . take bsAES $ stream
+  return . BS.pack . take bs $ stream
 
-rawECBDecrypter :: Int -> Int -> (PlainText -> Maybe CipherText) 
-                -> Int -> BS.ByteString -> [Word8] -> Maybe [Word8]
-rawECBDecrypter msglen bs encryptf n buffer known
-  | n == msglen = Just []
-  | otherwise     = do
-             enc <- encryptf buffer
-             let encstring = BS.append buffer (BS.pack known)
-             tencs <- mapM (encryptf . BS.snoc encstring) [0..]
-             let enc' = BS.take bs
-                      . BS.drop ((n `div` bs)*bs) $ enc
-                 tencs' = map (BS.take bs . BS.drop ((n `div` bs)*bs)) tencs
-                 encsmap = zip tencs' [0..]                 
-             w <- lookup enc' encsmap
-             let buffer' = if BS.null buffer
-                           then (BS.replicate (bs-1) _A)
-                           else BS.tail buffer
-             (:) w <$> rawECBDecrypter msglen bs encryptf (n+1) buffer' (known++[w])
-
-ecbDecrypter :: (PlainText -> Maybe CipherText) -> Maybe [Word8]
-ecbDecrypter encryptf = rawECBDecrypter len bs encryptf 0 (BS.replicate (bs-1) _A) []
-    where
-      bs  = getECBBS encryptf
-      len = getECBMsgLength encryptf
-
-
-findByte :: Int -> (PlainText -> Maybe CipherText) -> PlainText -> Maybe Word8
-findByte bsize encrypter buffer = do
-  allencs <- mapM (encrypter . BS.snoc buffer) [0..]
-  let allencs' = map (BS.take bsize) allencs
-      encsmap  = zip allencs' [0..]
-  enc <- BS.take bsize <$> encrypter buffer
-  lookup enc encsmap
-  
-
+ 
 -- KeyGen
 
-getKey :: RandomGen r => r -> Key
-getKey g = BS.pack . take bsAES . randoms $ g
+getKey :: RandomGen r => Int -> r -> Key
+getKey bs g = BS.pack . take bs . randoms $ g
 
 -- Text values
 
@@ -378,22 +263,6 @@ ttext = "Hello World, My name is Andrew!!" :: PlainText
 tkey = "YELLOW SUBMARINE" :: Key
 tblock = "Hello World! Bye" :: BS.ByteString
 
-tiv = BS.replicate (fromIntegral bsAES) 0
-
 longtext = "The debate has not changed, and it gets to the core foundation of modern health care. The SBM position is quite straightforward as a profession, health care providers owe it to the public to base their advice and interventions on the best available science and evidence. It is our duty to establish and enforce a standard of care that includes adequate due diligence in determining the safety and effectiveness of interventions. The standard of care also includes giving patients proper informed consent and ethical standards of professionalism. There is also a well-established standard for conducting research on humans." :: BS.ByteString
 
-getECBMsgLength :: (PlainText -> Maybe CipherText) -> Int
-getECBMsgLength encrypter = gml 0
-  where olen = BS.length . fromJust . encrypter $ ""
-        gml n = if (BS.length . fromJust . encrypter . BS.replicate n) _A == olen
-                then gml (n+1)
-                else (olen - n)
 
-getECBBS :: (PlainText -> Maybe CipherText) -> Int
-getECBBS encrypter = gbs 0
-  where
-    olen = BS.length . fromJust . encrypter $ ""
-    gbs n = let len = (BS.length . fromJust . encrypter . BS.replicate n) _A in
-            if len == olen
-               then gbs (n+1)
-               else (len - olen)
